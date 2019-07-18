@@ -171,15 +171,15 @@
 
 \RequirePackage{geometry}
 \geometry{
-	paper=a4paper, % Default paper size, change to "letterpaper" for US Letter (you'll need to adjust margins after)
-%	inner=1.5in, % The inner margin (beside binding)
-	inner=3.8cm,
-%	outer=1in, % The outer margin (opposite binding)
-	outer=2.5cm,
-%	top=.6in, % Top margin
-	top=3.8cm,
-%	bottom=.8in, % bottom margin
-	bottom=2.5cm,
+	paper=letterpaper, % Default paper size, change to "letterpaper" for US Letter (you'll need to adjust margins after)
+	inner=1.5in, % The inner margin (beside binding)
+% 	inner=3.8cm,
+	outer=1in, % The outer margin (opposite binding)
+% 	outer=2.5cm,
+	top=.6in, % Top margin
+% 	top=3.8cm,
+	bottom=.8in, % bottom margin
+% 	bottom=2.5cm,
 	headheight=20pt, % Header height
 	headsep=.25in, % Header separation
 	includehead,

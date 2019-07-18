@@ -2,92 +2,29 @@
 
 \chapter{Introduction} % Main chapter title
 
-\label{Introduction} %for referencing this chapter elsewhere, use \ref{Introduction}
-
-\section{Introduction}
-Here is where you can put a general introduction to your thesis. Just start typing away! You won't be able to render each of your chapters individually, as they are missing the preamble (the bit before the \verb+\begin{document}+). Using Overleaf makes this simple, locally (i.e. your computer) it will only be a bit more tricky. 
-
-One of my favorite features of \LaTeX{} is the ability to put comments in your document, that are not rendered into the PDF. I leave little notes to myself all the time. You will have noticed many of these already in the document. Anything that is prefixed with a \% sign will be ignored when creating a PDF. The \% sign is a special character in \LaTeX{} (there are others too), so to print it you have to ``escape it'' as such: \verb+\%+.
-
-Quotes too a slightly different. Use the backtick (near your escape key) for the start and an apostrophe for the end of the quote. \verb+``''+. 
-
-
-\section{Citations}
-When you need to cite a paper, it is simple. For a regular citation \citep{wright1932roles}. Overleaf will even give you a drop down of possible references. For multiple citations, separate with a comma \citep{wright1932roles,haldane1922sex}. For multi-author citations, the \verb+et. al+ is automatically put in.
-
-\section{a new section}
-
-Other citation styles are called in a similar manner.
-\begin{verbatim}
-\citep{} = (Wright 2015)
-\citet{} = Wright (2015)
-\citealt{} = Wright 2015
-\citealp{} = Wright, 2015
-\end{verbatim}
-
-Citations themselves are held in the .bib file. The first line defines the key, which is used to call the citation in the text (such as ``haldane1922sex''). You can change the key to whatever. Though there is not likely to be a reason for it, there are ways to have multiple bibliographies. Various packages, such as multibib and bibtopic, would allow you to do things like print bibliographies at the end of each chapter. 
-
-With bibtopic you would have separate .bib files and then print them within a 
-\begin{verbatim}
-\begin{btSect}{Chapt1.bib}
-	``some print command''
-\end{btSect}.
-\end{verbatim}
-
-As for the citation style at the end in the references section, I believe the GSA says go with whatever is the ``standard'' in your field. That will take a little Google-ing to get right. 
-
-\clearpage % just here it for demonstration purposes, you do not need to specify page brakes
-
-One nice feature is creating short names for species, and other acronyms. In the preamble of the main text, you can define these acronyms. They would look something like:
-\begin{verbatim}
-\DeclareAcronym{est}{
-	short = EST,
-	long  = expressed sequence tags
+\DeclareAcronym{dnn}{
+	short = DNN,
+	long  = Deep Neural Network
 }
 
-\DeclareAcronym{Xl}{
-	short = \textit{X.~laevis},
-	long  = \textit{Xenopus~laevis}
+\DeclareAcronym{cnn}{
+	short = CNN,
+	long  = Convolutional Neural Network
 }
-\DeclareAcronym{Xg}{
-	short = \textit{X.~gilli},
-	long  = \textit{Xenopus~gilli}
-}
-\end{verbatim}
-
-These could allow you to write \ac{est} and \acl{Xl}, which will bring the full name the first time, then the short form all other times. So we can call them again \ac{est} and \ac{Xl}. We can even pluralize them \acp{est}, if necessary. For species names, I generally use \verb+\acl+ the first time, then \verb+\ac+ the other times. If I mention another species with the same genus name, such as \acs{Xg}, I use \verb+\acs+ the first time (so that I do not repeat the genera name) and all other time use \verb+\ac+. There are a lot of options, beyond ``short'' and ``long'', if you need more complicated things with your acronyms. 
-
-Another option for odd names is to define a custom command. This is set with
-\begin{verbatim}
-\newcommand{\oddname}{{\sc SoME goOfY LonG ThiNg With an AwkWarD 
-                                                NAme}\xspace}
-\end{verbatim}
-
-Then called however you defined it: \oddname.
-
-\section{Handling a supplement}
-
-Probably best to have chapter supplements as appendices at the end of the thesis. In the main.tex file, you will see a section called \verb+\appendix+. Below that, when you call a chapter.tex file, it will treat it as an appendix and reference the section accordingly (A.1, A.2, B.1, B.2, etc.). As an example, we can reference the Figure in the supplement (Fig.\,\ref{Another_fig}; see Chapter \ref{background} for handling figures). 
 
 
+The complex structure of tissue and highly variable image produced by US and PAT make cancer classification a challenging problem. With the recent development of machine learning algorithms, we can make use of the large amounts of data we already have to help clinicians to make more accurate diagnoses. 
 
+Generally speaking, Machine learning (ML) is a system that can automatically produce the desired output from a given input. ML, as the name suggests, could learn and improve its decision making from the many correct input-output examples that its given in the training phase. Unlike classic algorithms and programs, ML does not require manually program the desired response for all possible inputs. ML benefits from large amount of data. It could extract features and recognize general patterns from highly variant data then find the non-linear mapping from input to the correct output. 
 
+Support Vector Machine (SVM) is a well-known classification algorithm that does decision-making. In many previous studies related to clinical image diagnostic, SVM has been trained to produce satisfactory results. However, SVM relies on carefully hand-crafted features. One with no domain knowledge of the original data could not generalize and reuse the model on new data.
 
-\section{Introduction}
+\ac{dnn}, on the other hand, is a newly developed approach that works on raw data. There is no need to precompute and extract features that based on prior knowledge about the data. Feeding a \ac{dnn} model with minimally pre-processed data would be sufficient enough for it to learn then produce reliable results. \acp{dnn} are extremely capable of modelling highly complex data that contain hierarchical information. For instance, a \ac{dnn} could be trained to recognize faces. It does so by learning a hierarchy of visual features that distinguish faces from other objects. Starting from lower order features such as edges and corners, to features resembling parts of faces such as eyes and mouth, then finally features that are recognizable as template faces.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The \citep{shuo2019example} naturally complex structure of tissue and highly variable image produced by US and PAT make cancer classification a challenging problem. With the recent development of machine learning algorithms, we can make use of the large amounts of data we already have to help clinicians to make more accurate diagnoses. 
+\ac{cnn} is an advanced architecture of \ac{dnn}. Its convolution layers allow \ac{cnn} to learn models that have scale and translational invariance. Convolution layer is a \ac{dnn} layer that convolves filters across an image in order to localize and synthesize important information. In a \ac{cnn}, there are pooling layers work **** with convolution layers. Pooling layer is to subsample images by pooling information from patches of pixels between convolutional layers. It can effectively build a hierarchy of features progressing from more local to more global in scope. This unique feature of \ac{cnn} makes it well-suited for complex image classification tasks.
 
-Machine learning refers to algorithms that can learn rules and patterns directly from data. These algorithms have been demonstrated in a wide variety of fields to be extremely powerful for predictive analytics and for computational decision-making [16]. Machine learning algorithms benefit from large amounts of data and are uniquely capable of extracting useful information from data containing a variety of inconsistencies (e.g., data collected from a different sources or images taken at different angles, distances, and resolutions). This is largely due to their ability to combine large numbers of variables in nonlinear ways in order to identify complex invariant patterns which would otherwise be difficult to detect [17]. 
-Much of the literature on machine learning for diagnostic decision-making with medical images has focused on hand-crafting features based on domain knowledge that are effective with modern classifiers [18], [19], such as the Support Vector Machine [20]. Deep learning is a new approach that is less limited by the availability of a priori knowledge [21]. 
-Deep learning refers to a class of machine learning methods that can learn a hierarchical set of features from raw data rather than requiring a researcher to precompute a set of handcoded features for input into the model [22]. Deep learning models have proven to be extremely powerful for modeling highly complex data that contain hierarchical information. For example, deep learning models trained for visual facial recognition can learn a hierarchy of visual features, starting with low-level edge and gradient features and building up to features resembling parts of faces, and ultimately features that are recognizable as template faces [23], [24]. These features are then combined nonlinearly to reconstruct and recognize faces. 
-The Deep Convolutional Neural Network (DCNN) [12], [25] is a specific deep learning algorithm that may be especially well-suited for complex image classification tasks. This is in part because DCNNs convolve filters across an image in order to localize and synthesize important information. The unique convolutional layers that define convolutional neural networks give them an exceptional ability to learn models that have scale and translational invariance. Additionally, subsampling images by pooling information from patches of pixels between convolutional layers allows DCNNs to effectively build a hierarchy of features progressing from more local to more global in scope. 
-The large majority of studies demonstrating the utility of deep learning in medical imaging have been published in the last two years [26]. Most applications involve image segmentation or object detection rather than diagnosis itself. DCNNs specifically have been used for lung cancer nodule detection [27], abnormality detection in chest radiographs [28], arrhythmia detection [29], and developmental hip dys- plasia [30] with performance comparable to human experts. 
+The primary objective of this project is to classify breast cancer specimen using CNN. Three CNN models with state-of-the-art architecture are trained on PAT and US images separately. Their classification performance is tested via k-fold cross validation. This project also parameterized the models in YAML format in order to aid parameter fine tuning.
 
-
-The primary objective of this project is to classify breast cancer specimen using machine learning with PAT and US images. 
-Three neural network models are trained on PAT and US images separately, and their performance is compared. 
-This project also parameterized the models in order to achieve more intuitive fine tuning.
 
 
 
