@@ -34,10 +34,12 @@ The function $f$ is non-linear and is called the Activation Function. The purpos
 \end{itemize}
 
 \subsection{Feedforward Neural Network}
-The feedforward neural network was the first and simplest type of artificial neural network devised [3]. It contains multiple neurons (nodes) arranged in layers. Nodes from adjacent layers have connections or edges between them. All these connections have weights associated with them.
 
-An example of a feedforward neural network is shown in Fig.\,\ref{feedforward}.
-\begin{figure}
+The simplest Neural Network is a feedforward fully connected network. It is formed by one or multiple layers of nodes. Nodes in adjacent layers have connections between them. A connection represents a set of weights.
+
+
+\noindent An example of a feedforward neural network is shown in Fig.\,\ref{feedforward}.
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{Figs/feedforward.png}
     \caption{Feedforward Neural Network}
@@ -47,17 +49,40 @@ An example of a feedforward neural network is shown in Fig.\,\ref{feedforward}.
 A feedforward neural network can consist of three types of nodes:
 
 \begin{enumerate}
-\item Input Nodes – The Input nodes provide information from the outside world to the network and are   together referred to as the “Input Layer”. No computation is performed in any of the Input nodes – they just pass on the information to the hidden nodes.
-\item Hidden Nodes – The Hidden nodes have no direct connection with the outside world (hence the name “hidden”). They perform computations and transfer information from the input nodes to the output nodes. A collection of hidden nodes forms a “Hidden Layer”. While a feedforward network will only have a single input layer and a single output layer, it can have zero or multiple Hidden Layers.
-\item Output Nodes – The Output nodes are collectively referred to as the “Output Layer” and are responsible for computations and transferring information from the network to the outside world.
+\item Input Nodes – The Input nodes take in a input $X$ in the form of vector $(x_1,...,x_n)$. These nodes are together referred to as the “Input Layer”. No computation is performed in any of the Input nodes – they just pass on the information to the hidden nodes.
+
+\item Hidden Nodes – The Hidden nodes are in between Input Layer and Output Layer. They have no direct connection with the network input and the network output, thus they are called "Hidden" and form "Hidden Layer". After training, Hidden Node will learn some relationship (non-linearality) between its input and output. A feedforward network can have zero, one, or multiple Hidden Layers.
+
+\item Output Nodes – The Output nodes are collectively referred to as the “Output Layer” and are responsible for computations and producing output from the "Hidden Layer". Output Layer works in similar way as a Hidden Layer, but the output of this layer is considered the final output of the network.
+
 \end{enumerate}
 
-In a feedforward network, the information moves in only one direction – forward – from the input nodes, through the hidden nodes (if any) and to the output nodes. There are no cycles or loops in the network
+In a feedforward network, the information moves in only one direction – forward – from the input nodes, through the hidden nodes and to the output nodes. There are no cycles or loops in the network.
 
 
 \subsection{Multi Layer Perceptron}
-\subsection{Back-Propagation}
+A Multi Layer Perceptron (MLP) contains one or more hidden layers (apart from one input and one output layer).  While a single layer perceptron can only learn linear functions, a multilayer perceptron can also learn non-linear functions.
 
+Fig.\,\ref{mlp} shows a multilayer perceptron with a single hidden layer. Note that all connections have weights associated with them, but only three weights $(w_1,...,w_n)$ are shown in the figure.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{Figs/multilayer.png}
+    \caption{Multi Layer Perceptron}
+    \label{mlp}
+\end{figure}
+
+\textbf{Input Layer}: The Input layer has three nodes. The Bias node has a value of 1. The other two nodes take in the input $X = (x_1,x_2)$. These values form the Input Layer and are passed to the Hidden Layer.
+
+\textbf{Hidden Layer}: The Hidden layer also has three nodes with the Bias node having an output of 1. The output of the other two nodes in the Hidden layer depends on the Input layer $(b, x_1, x_2)$ as well as the weights $(w_0,w_1,...,w_n)$ associated with the connections (edges). Fig.\,\ref{mlp} shows the output calculation for one of the hidden nodes (highlighted). $Y_{Node} = f(\sum{w_0+w_1x_1+w_2x_2})$, where $f$ is an activation function.
+
+\textbf{Output Layer}: The Output layer has two nodes which take inputs from the Hidden layer and perform similar computations as shown for the highlighted hidden node. The values calculated $(y_1,y_2)$ as a result of these computations act as output $\hat{y}$ of the Multi Layer Perceptron.
+
+Given a set of features $X = (x_1,...,x_n)$ and a target $y = (y_1,..,y_n)$, a Multi Layer Perceptron can learn the relationship between the features and the target, for either classification or regression.
+
+
+\subsection{Back-Propagation}
+Back-Propagation refers to the backward propagation of errors. A Neural Network learns through Back-Propagation by calculating the error from the output $\hat{y}$ to the true value $y$, then improving the weights in all nodes. The learning is "supervised", meaning the true value $y$ must be known respect to each input $X$.
 
 
 
