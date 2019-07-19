@@ -53,7 +53,7 @@ onehalfpacing, % Single line spacing, alternatives: onehalfspacing or doublespac
 %----------------------------------------------------------------------------------------
 % Handling Citations
 %----------------------------------------------------------------------------------------
-\usepackage[backend=biber, giveninits=true, doi=false, natbib=true, url=false, eprint=false, style=authoryear, sorting=nyt, maxcitenames=2, maxbibnames=99, uniquename=false, uniquelist=false, dashed=false]{biblatex} % can change the maxbibnames to cut long author lists to specified length followed by et al., currently set to 99.
+\usepackage[backend=biber, giveninits=true, doi=true, natbib=true, url=true, eprint=false, sorting=nyt, maxbibnames=99, uniquename=false, uniquelist=false]{biblatex} % can change the maxbibnames to cut long author lists to specified length followed by et al., currently set to 99.
 \DeclareFieldFormat[article,inbook,incollection,inproceedings,patent,thesis,unpublished]{title}{#1\isdot} % removes quotes around title
 \renewbibmacro*{volume+number+eid}{%
   \printfield{volume}%
@@ -325,19 +325,12 @@ The acknowledgments and the people to thank go here, don't forget to include you
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES
 %----------------------------------------------------------------------------------------
+a \cite{mltrend}
 
-\appendix % Cue to tell LaTeX that the following "chapters" are Appendices
-\renewcommand{\thetable}{A\arabic{chapter}.\arabic{table}} % adds an A to table names in appendix (Table A1.1, A1.2...)
-\renewcommand{\thefigure}{A\arabic{chapter}.\arabic{figure}} % same for figures
-\renewcommand{\thesection}{A\arabic{section}}
-
-% Include the appendices of the thesis as separate files from the Appendices folder
-\input{Appendix/Supp_Chap1.tex}
-
+b \cite{mltrend}
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
-
 \printbibliography[heading=bibintoc]
 
 %----------------------------------------------------------------------------------------

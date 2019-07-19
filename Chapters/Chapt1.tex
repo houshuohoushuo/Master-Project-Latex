@@ -1,5 +1,3 @@
-% Example chapter, could be the introduction
-
 \chapter{Introduction} % Main chapter title
 
 \DeclareAcronym{dnn}{
@@ -21,7 +19,7 @@ Support Vector Machine (SVM) is a well-known classification algorithm that does 
 
 \ac{dnn}, on the other hand, is a newly developed approach that works on raw data. There is no need to precompute and extract features that based on prior knowledge about the data. Feeding a \ac{dnn} model with minimally pre-processed data would be sufficient enough for it to learn then produce reliable results. \acp{dnn} are extremely capable of modelling highly complex data that contain hierarchical information. For instance, a \ac{dnn} could be trained to recognize faces. It does so by learning a hierarchy of visual features that distinguish faces from other objects. Starting from lower order features such as edges and corners, to features resembling parts of faces such as eyes and mouth, then finally features that are recognizable as template faces.
 
-\ac{cnn} is an advanced architecture of \ac{dnn}. Its convolution layers allow \ac{cnn} to learn models that have scale and translational invariance. Convolution layer is a \ac{dnn} layer that convolves filters across an image in order to localize and synthesize important information. In a \ac{cnn}, there are pooling layers work **** with convolution layers. Pooling layer is to subsample images by pooling information from patches of pixels between convolutional layers. It can effectively build a hierarchy of features progressing from more local to more global in scope. This unique feature of \ac{cnn} makes it well-suited for complex image classification tasks.
+\ac{cnn} is an advanced architecture of \ac{dnn}. Its convolution layers allow \ac{cnn} to learn models that have scale and translational invariance. Convolution layer is a \ac{dnn} layer that convolves filters across an image in order to localize and synthesize important information. In a \ac{cnn}, there are pooling layers work together with convolution layers. Pooling layer is to subsample images by pooling information from patches of pixels between convolutional layers. It can effectively build a hierarchy of features progressing from more local to more global in scope. This unique feature of \ac{cnn} makes it well-suited for complex image classification tasks.
 
 The primary objective of this project is to classify breast cancer specimen using CNN. Three CNN models with state-of-the-art architecture are trained on PAT and US images separately. Their classification performance is tested via k-fold cross validation. This project also parameterized the models in YAML format in order to aid parameter fine tuning.
 

@@ -146,7 +146,6 @@
 
 \RequirePackage[small,sc]{caption} % Required for customising the captions
 \setlength{\captionmargin}{50pt}
-
 %----------------------------------------------------------------------------------------
 
 \newcommand{\checktoopen}{% New command to move content to the next page which prints to the next odd page if twosided mode is active  
