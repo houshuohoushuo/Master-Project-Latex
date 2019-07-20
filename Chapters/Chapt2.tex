@@ -76,20 +76,72 @@ Fig.\,\ref{mlp} shows a multilayer perceptron with a single hidden layer. Note t
 
 \textbf{Hidden Layer}: The Hidden layer also has three nodes with the Bias node having an output of 1. The output of the other two nodes in the Hidden layer depends on the Input layer $(b, x_1, x_2)$ as well as the weights $(w_0,w_1,...,w_n)$ associated with the connections (edges). Fig.\,\ref{mlp} shows the output calculation for one of the hidden nodes (highlighted). $Y_{Node} = f(\sum{w_0+w_1x_1+w_2x_2})$, where $f$ is an activation function.
 
-\textbf{Output Layer}: The Output layer has two nodes which take inputs from the Hidden layer and perform similar computations as shown for the highlighted hidden node. The values calculated $(y_1,y_2)$ as a result of these computations act as output $\hat{y}$ of the Multi Layer Perceptron.
+\textbf{Output Layer}: The Output layer has two nodes which take inputs from the Hidden layer and perform similar computations as shown for the highlighted hidden node. The values calculated $(y_1,y_2)$ as a result of these computations act as output $\hat{Y}$ of the Multi Layer Perceptron.
 
-Given a set of features $X = (x_1,...,x_n)$ and a target $y = (y_1,..,y_n)$, a Multi Layer Perceptron can learn the relationship between the features and the target, for either classification or regression.
+Given a set of features $X = (x_1,...,x_n)$ and a target $Y = (y_1,..,y_n)$, a Multi Layer Perceptron can learn the relationship between the features and the target, for either classification or regression.
 
 
 \subsection{Back-Propagation}
-Back-Propagation refers to the backward propagation of errors. A Neural Network learns through Back-Propagation by calculating the error from the output $\hat{y}$ to the true value $y$, then improving the weights in all nodes. The learning is "supervised", meaning the true value $y$ must be known respect to each input $X$.
+Back-Propagation refers to the backward propagation of errors. A Neural Network learns through Back-Propagation by calculating the error from the output $\hat{Y}$ to the true value $Y$, then improving the weights in all nodes. The learning is "supervised", meaning the true value $Y$ must be given to the network respect to each input $X$ in training.
 
+A loss function $L$ measures the error between network output $\hat{Y}$ and the true value $Y$. The cost of one set of weights is defined as $\mathcal{L}(W)$
+$$\mathcal{L}(W)= \frac{\mathrm{1}}{n}\sum_{i=1}^{n} L(Y^i,\hat{Y}^i) = \frac{\mathrm{1}}{n}\sum_{i=1}^{n} L(Y^i,f(X^i,W))$$
+Where $Y^i$ are the true values, $X^i$ are the inputs, $\hat{Y}^i$ are the network outputs corresponds to $X^i$. $W$ is the set of weights, and $f$ is the activation function.
+
+There are many loss functions to measure different kind of errors. For a classification problem, which is this project, Cross Entropy loss is used. Cross Entropy is defined as:
+$$\mathcal{L}=-\frac{\mathrm{1}}{n}\sum_{i=1}^{n}[Y^i \log(\hat{Y}^i)+(1-Y^i) \log(1-\hat{Y}^i)]$$
+measures the divergence between two probability distributions. Minimizing the cross entropy increases the similarities between the two distributions. The use of cross entropy as a loss function is commonly paired with the use of a Sigmoid activation function $\sigma$ when dealing with binary classification. Substituting a Sigmoid activation function $\sigma$
+$$\mathcal{L}=-\frac{\mathrm{1}}{n}\sum_{i=1}^{n}[Y^i \log(\sigma(W \cdot X^i))+(1-Y^i) \log(1-\sigma(W \cdot X^i))]$$
+The derivative w.r.t weights $W$ is:
+$$\frac{\partial \mathcal{L}}{\partial W} = (Y - \sigma(W \cdot X))\cdot X$$
+The $\sigma'(W \cdot X)$ term is eliminated, which makes it easy for calculation.
+Then the learning is performed by updating W
+$$ W = W - \eta\cdot\nabla\mathcal{L}$$
+where $\eta$ is a pre-defined learning rate. Often times, the learning rate is difficult to set. If it is too large, the local and global minima can be “overshot”, leading to slow convergence, and if the learning rate is too small, it can take a long time to converge to an acceptable minimum. “Adaptive Moment Estimation (Adam)” optimizer is invented to adaptively set the learning rate during training.
 
 
 \section{Convolutional Neural Networks}
+A Convolutional Neural Network (ConvNet/CNN) is a Neural Network model which can take in an input image, assign importance (learnable weights and biases) to regions/groups of pixels via kernals/filters. The pre-processing required in a ConvNet is much lower as compared to other classification algorithms. While in primitive methods filters are hand-engineered, with enough training, ConvNets have the ability to learn these kernals.
+
+The architecture of a ConvNet is analogous to that of the connectivity pattern of Neurons in the Human Brain and was inspired by the organization of the Visual Cortex. Individual neurons respond to stimuli only in a restricted region of the visual field known as the Receptive Field. A collection of such fields overlap to cover the entire visual area.
+
 \subsection{Convolution Layer — The Kernel}
+A ConvNet is able to successfully capture the Spatial and Temporal dependencies in an image through the application of relevant kernels. The architecture performs a better fitting to the image dataset due to the reduction in the number of parameters involved and reusability of weights. In other words, the network can be trained to understand the sophistication of the image better.
+
+An example of kernel could be a simple 3x3 vertical edge detector.
+
+\begingroup
+\begin{tabular}{ | *{3}{>{\collectcell\fwcell}c<{\endcollectcell} |} }
+  \hline
+  1 & 0 & -1 \\
+  \hline
+  1 & 0 & -1 \\
+  \hline
+  1 & 0 & -1 \\
+  \hline
+\end{tabular}}
+\endgroup
+
+Let K denote this kernel. Convolution is done by matrix multiplication operation between K and the portion P of the image over which the kernel is hovering. The kernel is moved from left to right, top to bottom with a certain Stride value. Figure * shows two steps of kernal application on image with Stride set to 1. 
+
+ConvNets need not be limited to only one Convolutional Layer. Conventionally, the first ConvLayer is responsible for capturing the Low-Level features such as edges, color, gradient orientation, etc. With added layers, the architecture adapts to the High-Level features as well, giving us a network which has the wholesome understanding of images in the dataset.
+
 \subsection{Pooling Layer}
+
+Similar to the Convolutional Layer, the Pooling layer is responsible for reducing the spatial size of the Convolved Feature. This is to decrease the computational power required to process the data through dimensionality reduction. Furthermore, it is useful for extracting dominant features which are rotational and positional invariant, thus maintaining the process of effectively training of the model.
+
+There are two types of Pooling: Max Pooling and Average Pooling. Max Pooling returns the maximum value from the portion of the image covered by the Kernel. On the other hand, Average Pooling returns the average of all the values from the portion of the image covered by the Kernel.
+
+Max Pooling also performs as a Noise Suppressant. It discards the noisy activations altogether and also performs de-noising along with dimensionality reduction. On the other hand, Average Pooling simply performs dimensionality reduction as a noise suppressing mechanism. Hence, we can say that Max Pooling performs a lot better than Average Pooling.
+
+The Convolutional Layer and the Pooling Layer, together form the i-th layer of a Convolutional Neural Network. Depending on the complexities in the images, the number of such layers may be increased for capturing low-levels details even further, but at the cost of more computational power.
+
 \subsection{Classification — Fully Connected Layer (FC Layer)}
+
+Adding a Fully-Connected layer is a (usually) cheap way of learning non-linear combinations of the high-level features as represented by the output of the convolutional layer. The Fully-Connected layer is learning a possibly non-linear function in that space.
+
+Now that we have converted our input image into a suitable form for our Multi-Level Perceptron, we shall flatten the image into a column vector. The flattened output is fed to a feed-forward neural network and backpropagation applied to every iteration of training. Over a series of epochs, the model is able to distinguish between dominating and certain low-level features in images and classify them using the Softmax Classification technique.
+
 \section{K-Fold Cross Validation}
 \section{Image data augmentation}
 
