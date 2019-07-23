@@ -3,7 +3,31 @@
 \label{evaluation} 
 
 %%%%%%%%%%%%%%%%%%
-\section{Training Curve}
+\section{Training}
+"Adam" optimizer is used for all architectures to minimize the categorical cross-entropy across two classes.
+
 \subsection{Unrepresentative Train Dataset}
+
+Unrepresentative Train Dataset
+An unrepresentative training dataset means that the training dataset does not provide sufficient information to learn the problem, relative to the validation dataset used to evaluate it.
+This may occur if the training dataset has too few examples as compared to the validation dataset.
+This situation can be identified by a learning curve for training loss that shows improvement and similarly a learning curve for validation loss that shows improvement, but a large gap remains between both curves.
+Unrepresentative Validation Dataset
+An unrepresentative validation dataset means that the validation dataset does not provide sufficient information to evaluate the ability of the model to generalize.
+This may occur if the validation dataset has too few examples as compared to the training dataset.
+This case can be identified by a learning curve for training loss that looks like a good fit (or other fits) and a learning curve for validation loss that shows noisy movements around the training loss.
+
+
 \section{F1 score}
+In statistical analysis of binary classification, the F1 score (also F-score or F-measure) is a measure of a test's accuracy. It considers both the precision p and the recall r of the test to compute the score: p is the number of correct positive results divided by the number of all positive results returned by the classifier, and r is the number of correct positive results divided by the number of all relevant samples (all samples that should have been identified as positive). The F1 score is the harmonic average of the precision and recall, where an F1 score reaches its best value at 1 (perfect precision and recall) and worst at 0.
+The traditional F-measure or balanced F-score (F1 score) is the harmonic mean of precision and recall:F precision recall precision+recall
+presition:
+recall:
+true positives (TP): These are cases in which we predicted yes (they have the disease), and they do have the disease.
+true negatives (TN): We predicted no, and they don't have the disease.
+false positives (FP): We predicted yes, but they don't actually have the disease. (Also known as a "Type I error.")
+false negatives (FN): We predicted no, but they actually do have the disease. (Also known as a "Type II error.")
+
+
 \section{Confusion matrix}
+A confusion matrix is a table that is often used to describe the performance of a classification model (or "classifier") on a set of test data for which the true values are known

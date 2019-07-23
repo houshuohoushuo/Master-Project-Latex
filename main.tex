@@ -53,7 +53,7 @@ onehalfpacing, % Single line spacing, alternatives: onehalfspacing or doublespac
 %----------------------------------------------------------------------------------------
 % Handling Citations
 %----------------------------------------------------------------------------------------
-\usepackage[backend=biber, giveninits=true, doi=true, natbib=true, url=true, eprint=false, sorting=nyt, maxbibnames=99, uniquename=false, uniquelist=false]{biblatex} % can change the maxbibnames to cut long author lists to specified length followed by et al., currently set to 99.
+\usepackage[backend=biber, giveninits=true, doi=true, natbib=true, url=true, eprint=false, sorting=nyt, maxbibnames=99,maxcitenames=1, uniquename=false, uniquelist=false]{biblatex} % can change the maxbibnames to cut long author lists to specified length followed by et al., currently set to 99.
 \DeclareFieldFormat[article,inbook,incollection,inproceedings,patent,thesis,unpublished]{title}{#1\isdot} % removes quotes around title
 \renewbibmacro*{volume+number+eid}{%
   \printfield{volume}%

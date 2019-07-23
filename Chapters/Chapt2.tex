@@ -101,7 +101,13 @@ where $\eta$ is a pre-defined learning rate. Often times, the learning rate is d
 
 
 \section{Convolutional Neural Networks}
-A Convolutional Neural Network (ConvNet/CNN) is a Neural Network model which can take in an input image, assign importance (learnable weights and biases) to regions/groups of pixels via kernals/filters. The pre-processing required in a ConvNet is much lower as compared to other classification algorithms. While in primitive methods filters are hand-engineered, with enough training, ConvNets have the ability to learn these kernals.
+A Convolutional Neural Network (ConvNet/CNN) (Fig.\,\ref{cnn}) is a Neural Network model which can take in an input image, assign importance (learnable weights and biases) to regions/groups of pixels via kernals/filters. The pre-processing required in a ConvNet is much lower as compared to other classification algorithms. While in primitive methods filters are hand-engineered, with enough training, ConvNets have the ability to learn these kernals.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{Figs/cnn.jpg}
+    \caption{Convolutional Neural Network}
+    \label{cnn}
+\end{figure}
 
 The architecture of a ConvNet is analogous to that of the connectivity pattern of Neurons in the Human Brain and was inspired by the organization of the Visual Cortex. Individual neurons respond to stimuli only in a restricted region of the visual field known as the Receptive Field. A collection of such fields overlap to cover the entire visual area.
 
@@ -110,17 +116,9 @@ A ConvNet is able to successfully capture the Spatial and Temporal dependencies 
 
 An example of kernel could be a simple 3x3 vertical edge detector.
 
-\begingroup
-\begin{tabular}{ | *{3}{>{\collectcell\fwcell}c<{\endcollectcell} |} }
-  \hline
-  1 & 0 & -1 \\
-  \hline
-  1 & 0 & -1 \\
-  \hline
-  1 & 0 & -1 \\
-  \hline
-\end{tabular}}
-\endgroup
+FILTER 3x3 HERE
+
+FILTER 3x3 HERE
 
 Let K denote this kernel. Convolution is done by matrix multiplication operation between K and the portion P of the image over which the kernel is hovering. The kernel is moved from left to right, top to bottom with a certain Stride value. Figure * shows two steps of kernal application on image with Stride set to 1. 
 
@@ -132,18 +130,40 @@ Similar to the Convolutional Layer, the Pooling layer is responsible for reducin
 
 There are two types of Pooling: Max Pooling and Average Pooling. Max Pooling returns the maximum value from the portion of the image covered by the Kernel. On the other hand, Average Pooling returns the average of all the values from the portion of the image covered by the Kernel.
 
-Max Pooling also performs as a Noise Suppressant. It discards the noisy activations altogether and also performs de-noising along with dimensionality reduction. On the other hand, Average Pooling simply performs dimensionality reduction as a noise suppressing mechanism. Hence, we can say that Max Pooling performs a lot better than Average Pooling.
+Max Pooling also performs as a Noise Suppressant. It discards the noisy activations altogether and also performs de-noising along with dimensionality reduction. On the other hand, Average Pooling simply performs dimensionality reduction as a noise suppressing mechanism. 
 
-The Convolutional Layer and the Pooling Layer, together form the i-th layer of a Convolutional Neural Network. Depending on the complexities in the images, the number of such layers may be increased for capturing low-levels details even further, but at the cost of more computational power.
+The Convolutional Layer and the Pooling Layer, together form the i-th layer of a Convolutional Neural Network. Depending on the complexities in the images, the number of such layers may be increased for capturing low-levels details even further, but the more layers CNN has the more computation it performs.
 
 \subsection{Classification — Fully Connected Layer (FC Layer)}
 
-Adding a Fully-Connected layer is a (usually) cheap way of learning non-linear combinations of the high-level features as represented by the output of the convolutional layer. The Fully-Connected layer is learning a possibly non-linear function in that space.
+Fully-Connected layer is used to learn non-linear combinations of the high-level features as represented by the output of the convolutional layer. The Fully-Connected layer is learning a possibly non-linear function in that space.
 
-Now that we have converted our input image into a suitable form for our Multi-Level Perceptron, we shall flatten the image into a column vector. The flattened output is fed to a feed-forward neural network and backpropagation applied to every iteration of training. Over a series of epochs, the model is able to distinguish between dominating and certain low-level features in images and classify them using the Softmax Classification technique.
+Now that we have converted our input image into a suitable form for our Multi-Level Perceptron, we shall flatten the image into a column vector. The flattened output is fed to a feed-forward neural network and backpropagation applied to every iteration of training. Over a series of epochs, the model is able to distinguish between dominating and certain low-level features in images and classify them using the Softmax activation function.
 
 \section{K-Fold Cross Validation}
+K-Fold CV (Fig.\,\ref{kfold}) is where a given data set is split into a K number of sections/folds where each fold is used as a testing set at some point. Lets take the scenario of 5-Fold cross validation(K=5). Here, the data set is split into 5 folds. In the first iteration, the first fold is used to test the model and the rest are used to train the model. In the second iteration, 2nd fold is used as the testing set while the rest serve as the training set. This process is repeated until each fold of the 5 folds have been used as the testing set. The advantage of this method over repeated random sub-sampling is that all observations are used for both training and validation, and each observation is used for validation exactly once. The testing accuracy of each fold will be averaged to evaluate the model's performance. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{Figs/kfold.png}
+    \caption{5-Fold Cross Validation}
+    \label{kfold}
+\end{figure}
+
+
 \section{Image data augmentation}
+The performance of deep learning neural networks often improves with the amount of data available. Data augmentation is a technique to artificially create new training data from existing training data. This is done by applying domain-specific techniques to examples from the training data that create new and different training examples.
+Image data augmentation (Fig.\,\ref{dataaug}) is perhaps the most well-known type of data augmentation and involves creating transformed versions of images in the training dataset that belong to the same class as the original image.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{Figs/dataaug.png}
+    \caption{Image Data Augmentation}
+    \label{dataaug}
+\end{figure}
+Transforms include a range of operations from the field of image manipulation, such as shifts, flips, zooms, crops.
+
+Convolutional neural network can learn features that are invariant to their location in the image. Image augmentation can further aid in this transform invariant approach to learning and can aid the model in learning features that are also invariant to transforms such as left-to-right to top-to-bottom ordering. Image data augmentation is typically only applied to the training dataset, and not to the validation or test dataset. 
 
 
 
