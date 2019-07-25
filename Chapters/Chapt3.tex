@@ -1,31 +1,10 @@
 % remember to set these at the start of each chapter
-\chapter{Experiment Setup} 
-\label{arcgutecture} 
+\chapter{CNN architectures} 
 
 %%%%%%%%%%%%%%%%%%
-\section{Dataset}
-The dataset is obtained from western university. It contains 90 specimen samples, each of which has an Ultrasound (US) image stack and a Photoacoustic (PAT) image stack. The type of cancer (class) of each specimen is given in the dataset. The distribution of classes is 
-{'B': 33, 'C': 21, 'A': 8, 'F': 6, 'E': 5, 'G': 5, 'H': 2, 'I': 2, 'K': 2, 'D': 1, 'L': 1, 'N': 1, 'J': 1, 'M': 1}.  
-In this project, only class B and C are used. B has 33 samples and C has 21 samples. The other classes have too few samples to train a neural network on. 
+In this section, three CNN architectures are discussed. From a simple five-layer CNN, then a deeper 19-layer CNN VGG19, to a highly advanced CNN with shortcut connections Resnet.
 
-For each image stack, US and PAT, the centre few images are extracted to use for training and testing. In a top-down scan of a specimen, the centre few images usually have the most detail and thus have most information of the specimen which work the best in classifying the specimen. An example of image stack is shown in Fig.\,\ref{stack}.
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\textwidth]{Figs/stack.jpg}
-    \caption{US PAT stack example}
-    \label{stack}
-\end{figure}
-
-
-We can see that the top few and bottom few scans have very low quality and lack of detail of the internal texture. The scans close to centre are larger in size and have the texture that classification could depend on.
-
-The specimen samples are divided into training set and testing set by 0.8 ratio, 5-fold cross validation is used. Centre 6 images are extracted from a stack. No images from the same stack is separated into training and testing set. 
-
-\section{CNN architecture}
-The images are resized to (200,200). Each architecture takes in image of size (200,200) as its input layer. The output layer has two units corresponds to two classes B and C.
-
-\subsection{Small CNN}
+\section{Small CNN}
 Small CNN has five convolutional layer, followed by a fully connected layer of 512 units and an output layer. Each layer (convolutional and fully connected) uses units with rectified linear (ReLU) activation functions. The output layer uses SoftMax activation function for classification. 
 
 The first convolutional layer contains 16 filters with an input patch of 7x7 pixels. The second layer has 32 filters and an input patch size of 5x5 pixels. The following three convolutional layers contain 64 filters with patch size of 3x3 pixels. A stride is set to 1 in all convolutional layers. Padding is set to ‘same’, which results in padding the input such that the output has the same length as the original input.
@@ -34,7 +13,7 @@ Each convolutional layer is followed by a max pooling layer with 3x3 patch with 
 
 In addition to data augmentation, to reduce over fitting, batch normalization was performed after each convolutional layer, which normalizes the statistics of activations in a layer after a batch of images. In order to make training more robust and efficient, dropout is added after the fully connected layer to reduce overfitting and to promote learning more independent features.
 
-\subsection{VGG}
+\section{VGG}
 VGG is a ConvNet architecture that has significantly higher accuracy than prior ConvNets. It achieved the state-of-the-art accuracy on ILSVRC 2015 classification and localisation tasks. 
 
 The image is passed through a stack of convolutional layers. The filter that is used has a very small receptive field: 3 x 3 (which is the smallest size to capture the notion of left/right, up/down, center). Padding is set to "same". The convolution stride is 1. A max-pooling layer is added after two convolution layers for the first two blocks. For the third, fourth and fifth block, the setup is four convolution layers then max-pooling layer. All max-pooling is performed over a 2 x 2 pixel window, with stride 2x2 pixels. A stack of convolutional and max-pooling blocks is followed by three Fully-Connected (FC) layers: the first two have 4096 channels each, the third performs classification.All hidden layers are equipped with the rectification (ReLU) activation function. The final layer is Softmax for classification. Dropout layers are added between two FC layers. Dropout rate is set to 0.5. Fig.\,\ref{VGG} shows a VGG19 architecture.
@@ -48,10 +27,10 @@ The image is passed through a stack of convolutional layers. The filter that is 
 
 This VGG convnet architecture is quite different from the ones used in the top-performing entries in the previous ILSVRC competitions (Zeiler  Fergus, 2013; Sermanet et al., 2014). Rather than using relatively large receptive fields in the first conv. layers (e.g. 11 x 11 with stride 4 in (Krizhevsky et al., 2012), or 7 x 7 with stride 2 in (Zeiler  Fergus, 2013; Sermanet et al., 2014)), VGG uses very small 3 x 3 receptive fields throughout the whole net, which are convolved with the input at every pixel (with stride 1). A stack of two 3 x 3 conv. layers (without spatial pooling in between) has an effective receptive field of 5 x 5; three such layers have a 7 x 7 effective receptive field. 
 
-Comparing to a single 7 x 7 convolution layer, a stack of three 3 x 3 convolution layers give the benefit of incorporating three non-linear rectification layers instead of a single one, which makes the decision function more discriminative. Also, the number of parameter is decreased. A stack of three 3 x 3 filters have $3\times3^2 = 27$ parameters whereas a 7 x 7 filter has $7^2 = 49$ parameters. This can be seen as imposing a regularisation on the 7 x 7 conv. filters, forcing them to have a decomposition through the 3 x 3 filters (with non-linearity injected in between).
+Comparing to a single 7 x 7 convolution layer, a stack of three 3 x 3 convolution layers give the benefit of incorporating three non-linear rectification layers instead of a single one, which makes the decision function more discriminative. Also, the number of parameter is decreased. A stack of three 3 x 3 filters have $3\times3^2 = 27$ parameters whereas a 7 x 7 filter has $7^2 = 49$ parameters. This can be seen as imposing a regularization on the 7 x 7 conv. filters, forcing them to have a decomposition through the 3 x 3 filters (with non-linearity injected in between).
 
 
-\subsection{ResNet}
+\section{ResNet}
 
 The depth of a neural network is an important factor influencing its performance. The architecture used in visual tasks is often very deep. We usually achieve better accuracy with deeper neural networks. However, when the network is too deep, we may encounter the vanishing gradient problem. In back-propagation, each of the neural network's weights receives an update proportional to the partial derivative of the error function with respect to the current weight in each iteration of training. In some cases, the gradient will be vanishingly small, effectively preventing the weight from changing its value. In the worst case, this may completely stop the neural network from further training. We can address this problem by normalized initialization [23, 9, 37, 13] and intermediate normalization layers, which enable networks with tens of layers to start converging for stochastic gradient descent (SGD) with backpropagation. 
 
@@ -129,10 +108,39 @@ We have two types of ResNet block, depending on whether the input/output dimensi
 
 \item  \textbf{Convolutional Block} is used when the input and output dimensions don't match up. The only difference comparing to identity block is that convolutional block has a convolutional layer in the shortcut path to match the dimensions (Equation(\ref{eq2})).
     \begin{description}
-      \item[$\ast$ First component of main path:] The first CONV2D has $F_1$ filters of shape (1,1) and a stride of (1,1). Its padding is "valid". The first BatchNorm is normalizing the channels axis. Then apply the ReLU activation function. 
+      \item[$\ast$ First component of main path:] The first CONV2D has $F_1$ filters of shape (1,1) and a stride of $(s,s)$. Its padding is "valid". The first BatchNorm is normalizing the channels axis. Then apply the ReLU activation function. 
       \item[$\ast$ Second component of main path:] The second CONV2D has $F_2$ filters of shape $(f,f)$ and a stride of (1,1). Its padding is "same". The second BatchNorm is normalizing the channels axis. Then apply the ReLU activation function. 
       \item[$\ast$ Third component of main path:] The third CONV2D has $F_3$ filters of shape (1,1) and a stride of (1,1). Its padding is "valid". The third BatchNorm is normalizing the channels axis. There is no ReLU activation function.
-      \item[$\ast$ Shortcut path:] The CONV2D has $F_3$ filters of shape (1,1) and a stride of (s,s). Its padding is "valid". The BatchNorm is normalizing the channels axis. 
+      \item[$\ast$ Shortcut path:] The CONV2D has $F_3$ filters of shape (1,1) and a stride of $(s,s)$. Its padding is "valid". The BatchNorm is normalizing the channels axis. 
       \item[$\ast$ Final step:] The shortcut and the input are added together. Then apply the ReLU activation function.
     \end{description}
 \end{enumerate}
+
+Resnet-18 architecture is built as the following:
+
+\textbf{Stage 1}:
+Zero-padding pads the input with a pad of (3, 3)
+Convolution layer has 64 filters of shape (7, 7) and uses a stride of (2, 2).
+BatchNorm is applied to the channels axis of the input.
+MaxPooling uses a (3, 3) window and a (2, 2) stride.
+
+\textbf{Stage 2}:
+One convolutional block uses three set of filters $(F_1=F_2=F_3)$ of size [64, 64, 256], filter shape $f$ set to 3, stride $s$ set to 1.
+Two identity blocks use three set of filters $(F_1=F_2=F_3)$ of size [64, 64, 256], filter shape $f$ set to 3.
+
+\textbf{Stage 3}:
+One convolutional block uses three set of filters of size [128, 128, 512], $f$ is 3, $s$ is 2.
+Two identity blocks use three set of filters of size [64, 64, 256], $f$ is 3.
+
+\textbf{Stage 4}:
+One convolutional block uses three set of filters of size [256, 256, 1024], $f$ is 3, $s$ is 2.
+Two identity blocks use three set of filters of size [256, 256, 1024], $f$ is 3.
+
+\textbf{Stage 5}:
+One convolutional block uses three set of filters of size  [512, 512, 2048], $f$ is 3, $s$ is 2.
+Two identity blocks use three set of filters of size  [512, 512, 2048], $f$ is 3.
+
+\textbf{Stage 6}:
+One 2D Average Pooling uses a window of shape (2,2).
+A flatten layer.
+Finally, a Fully Connected (Dense) layer reduces its input to the number of classes (2 in this case) using a softmax activation.
