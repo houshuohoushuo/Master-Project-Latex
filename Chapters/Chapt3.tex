@@ -5,7 +5,7 @@
 In this section, three CNN architectures are discussed. From a simple five-layer CNN, then a deeper 19-layer CNN VGG19, to a highly advanced CNN with shortcut connections Resnet.
 
 \section{Small CNN}
-Small CNN has five convolutional layer, followed by a fully connected layer of 512 units and an output layer. Each layer (convolutional and fully connected) uses units with rectified linear (ReLU) activation functions. The output layer uses SoftMax activation function for classification. 
+Small CNN architecrure is dirived from \cite{Dhindsa2018}, which were used in grading the servery of prenatal hydronephrosis (PHN). Small CNN has five convolutional layer, followed by a fully connected layer of 512 units and an output layer. Each layer (convolutional and fully connected) uses units with rectified linear (ReLU) activation functions. The output layer uses SoftMax activation function for classification. 
 
 The first convolutional layer contains 16 filters with an input patch of 7x7 pixels. The second layer has 32 filters and an input patch size of 5x5 pixels. The following three convolutional layers contain 64 filters with patch size of 3x3 pixels. A stride is set to 1 in all convolutional layers. Padding is set to ‘same’, which results in padding the input such that the output has the same length as the original input.
 
@@ -14,7 +14,7 @@ Each convolutional layer is followed by a max pooling layer with 3x3 patch with 
 In addition to data augmentation, to reduce over fitting, batch normalization was performed after each convolutional layer, which normalizes the statistics of activations in a layer after a batch of images. In order to make training more robust and efficient, dropout is added after the fully connected layer to reduce overfitting and to promote learning more independent features.
 
 \section{VGG}
-VGG is a ConvNet architecture that has significantly higher accuracy than prior ConvNets. It achieved the state-of-the-art accuracy on ILSVRC 2015 classification and localisation tasks. 
+VGG\citep{vgg} is a ConvNet architecture that has significantly higher accuracy than prior ConvNets. It achieved the state-of-the-art accuracy on ILSVRC 2015 classification and localisation tasks. 
 
 The image is passed through a stack of convolutional layers. The filter that is used has a very small receptive field: 3 x 3 (which is the smallest size to capture the notion of left/right, up/down, center). Padding is set to "same". The convolution stride is 1. A max-pooling layer is added after two convolution layers for the first two blocks. For the third, fourth and fifth block, the setup is four convolution layers then max-pooling layer. All max-pooling is performed over a 2 x 2 pixel window, with stride 2x2 pixels. A stack of convolutional and max-pooling blocks is followed by three Fully-Connected (FC) layers: the first two have 4096 channels each, the third performs classification.All hidden layers are equipped with the rectification (ReLU) activation function. The final layer is Softmax for classification. Dropout layers are added between two FC layers. Dropout rate is set to 0.5. Fig.\,\ref{VGG} shows a VGG19 architecture.
 
@@ -25,7 +25,7 @@ The image is passed through a stack of convolutional layers. The filter that is 
     \label{VGG}
 \end{figure}
 
-This VGG convnet architecture is quite different from the ones used in the top-performing entries in the previous ILSVRC competitions (Zeiler  Fergus, 2013; Sermanet et al., 2014). Rather than using relatively large receptive fields in the first conv. layers (e.g. 11 x 11 with stride 4 in (Krizhevsky et al., 2012), or 7 x 7 with stride 2 in (Zeiler  Fergus, 2013; Sermanet et al., 2014)), VGG uses very small 3 x 3 receptive fields throughout the whole net, which are convolved with the input at every pixel (with stride 1). A stack of two 3 x 3 conv. layers (without spatial pooling in between) has an effective receptive field of 5 x 5; three such layers have a 7 x 7 effective receptive field. 
+Rather than using relatively large receptive fields in the first convolutional layers, VGG uses very small 3 x 3 receptive fields throughout the whole net, which are convolved with the input at every pixel (with stride 1). However, the receptive field of a stack of two 3 x 3 conv. layers (without spatial pooling in between) is the same as that of 5 x 5; three 3 x 3 layers has the effective receptive field as 7 x 7. 
 
 Comparing to a single 7 x 7 convolution layer, a stack of three 3 x 3 convolution layers give the benefit of incorporating three non-linear rectification layers instead of a single one, which makes the decision function more discriminative. Also, the number of parameter is decreased. A stack of three 3 x 3 filters have $3\times3^2 = 27$ parameters whereas a 7 x 7 filter has $7^2 = 49$ parameters. This can be seen as imposing a regularization on the 7 x 7 conv. filters, forcing them to have a decomposition through the 3 x 3 filters (with non-linearity injected in between).
 
