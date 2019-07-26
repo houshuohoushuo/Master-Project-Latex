@@ -29,7 +29,7 @@ The function $f$ is non-linear and is called the Activation Function. The purpos
   \item tanh: takes a real-valued input and squashes it to the range [-1, 1]
         $$ tanh(x) = 2\cdot\sigma(2x)-1 $$
         
-  \item ReLU(Rectified Linear Unit): takes a real-valued input and thresholds it at zero
+  \item ReLU(Rectified Linear Unit) \citep{Nair:2010:RLU:3104322.3104425}: takes a real-valued input and thresholds it at zero
         $$f(x) = \max(0,x)$$
 \end{itemize}
 
@@ -97,11 +97,11 @@ $$\frac{\partial \mathcal{L}}{\partial W} = (Y - \sigma(W \cdot X))\cdot X$$
 The $\sigma'(W \cdot X)$ term is eliminated, which makes it easy for calculation.
 Then the learning is performed by updating W
 $$ W = W - \eta\cdot\nabla\mathcal{L}$$
-where $\eta$ is a pre-defined learning rate. Often times, the learning rate is difficult to set. If it is too large, the local and global minima can be “overshot”, leading to slow convergence, and if the learning rate is too small, it can take a long time to converge to an acceptable minimum. “Adaptive Moment Estimation (Adam)” optimizer is invented to adaptively set the learning rate during training.
+where $\eta$ is a pre-defined learning rate. Often times, the learning rate is difficult to set. If it is too large, the local and global minima can be “overshot”, leading to slow convergence, and if the learning rate is too small, it can take a long time to converge to an acceptable minimum. “Adaptive Moment Estimation (Adam)” \citep{adam} optimizer was invented to adaptively set the learning rate during training.
 
 
 \section{Convolutional Neural Networks}
-A Convolutional Neural Network (ConvNet/CNN) (Fig.\,\ref{cnn}) is a Neural Network model which can take in an input image, assign importance (learnable weights and biases) to regions/groups of pixels via kernals/filters. The pre-processing required in a ConvNet is much lower as compared to other classification algorithms. While in primitive methods filters are hand-engineered, with enough training, ConvNets have the ability to learn these kernals.
+A Convolutional Neural Network (CNN) (Fig.\,\ref{cnn}) is a Neural Network model which can take in an input image, assign importance (learnable weights and biases) to regions/groups of pixels via kernals/filters. The pre-processing required in a CNN is much lower as compared to other classification algorithms. While in primitive methods filters are hand-engineered, with enough training, CNNs have the ability to learn these kernals.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{Figs/cnn.jpg}
@@ -109,20 +109,23 @@ A Convolutional Neural Network (ConvNet/CNN) (Fig.\,\ref{cnn}) is a Neural Netwo
     \label{cnn}
 \end{figure}
 
-The architecture of a ConvNet is analogous to that of the connectivity pattern of Neurons in the Human Brain and was inspired by the organization of the Visual Cortex. Individual neurons respond to stimuli only in a restricted region of the visual field known as the Receptive Field. A collection of such fields overlap to cover the entire visual area.
+The architecture of a CNN is analogous to that of the connectivity pattern of Neurons in the Human Brain and was inspired by the organization of the Visual Cortex. Individual neurons respond to stimuli only in a restricted region of the visual field known as the Receptive Field. A collection of such fields overlap to cover the entire visual area.
 
 \subsection{Convolution Layer — The Kernel}
-A ConvNet is able to successfully capture the Spatial and Temporal dependencies in an image through the application of relevant kernels. The architecture performs a better fitting to the image dataset due to the reduction in the number of parameters involved and reusability of weights. In other words, the network can be trained to understand the sophistication of the image better.
+A CNN is able to successfully capture the Spatial and Temporal dependencies in an image through the application of relevant kernels. The architecture performs a better fitting to the image dataset due to the reduction in the number of parameters involved and reusability of weights. In other words, the network can be trained to understand the sophistication of the image better.
 
-An example of kernel could be a simple 3x3 vertical edge detector.
+Fig.\,\ref{kernels} shows four line detection kernels which respond maximally to horizontal, vertical and oblique (+45 and - 45 degree) single pixel wide lines.
 
-FILTER 3x3 HERE
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{Figs/kernels.png}
+    \caption{Kernels}
+    \label{kernels}
+\end{figure}
 
-FILTER 3x3 HERE
+Let K denote this kernel. Convolution is done by matrix multiplication operation between K and the portion P of the image over which the kernel is hovering. The kernel is moved from left to right, top to bottom with a certain Stride value. Figure * shows two steps of kernel application on image with Stride set to 1. 
 
-Let K denote this kernel. Convolution is done by matrix multiplication operation between K and the portion P of the image over which the kernel is hovering. The kernel is moved from left to right, top to bottom with a certain Stride value. Figure * shows two steps of kernal application on image with Stride set to 1. 
-
-ConvNets need not be limited to only one Convolutional Layer. Conventionally, the first ConvLayer is responsible for capturing the Low-Level features such as edges, color, gradient orientation, etc. With added layers, the architecture adapts to the High-Level features as well, giving us a network which has the wholesome understanding of images in the dataset.
+CNN need not be limited to only one Convolutional Layer. Conventionally, the first ConvLayer is responsible for capturing the Low-Level features such as edges, color, gradient orientation, etc. With added layers, the architecture adapts to the High-Level features as well, giving us a network which has the wholesome understanding of images in the dataset.
 
 \subsection{Pooling Layer}
 
@@ -141,7 +144,7 @@ Fully-Connected layer is used to learn non-linear combinations of the high-level
 Now that we have converted our input image into a suitable form for our Multi-Level Perceptron, we shall flatten the image into a column vector. The flattened output is fed to a feed-forward neural network and backpropagation applied to every iteration of training. Over a series of epochs, the model is able to distinguish between dominating and certain low-level features in images and classify them using the Softmax activation function.
 
 \section{K-Fold Cross Validation}
-K-Fold CV (Fig.\,\ref{kfold}) is where a given data set is split into a K number of sections/folds where each fold is used as a testing set at some point. Lets take the scenario of 5-Fold cross validation(K=5). Here, the data set is split into 5 folds. In the first iteration, the first fold is used to test the model and the rest are used to train the model. In the second iteration, 2nd fold is used as the testing set while the rest serve as the training set. This process is repeated until each fold of the 5 folds have been used as the testing set. The advantage of this method over repeated random sub-sampling is that all observations are used for both training and validation, and each observation is used for validation exactly once. The testing accuracy of each fold will be averaged to evaluate the model's performance. 
+K-Fold Cross Validation \citep{Kohavi95astudy} (Fig.\,\ref{kfold}) is where a given data set is split into a K number of sections/folds where each fold is used as a testing set at some point. Lets take the scenario of 5-Fold cross validation(K=5). Here, the data set is split into 5 folds. In the first iteration, the first fold is used to test the model and the rest are used to train the model. In the second iteration, 2nd fold is used as the testing set while the rest serve as the training set. This process is repeated until each fold of the 5 folds have been used as the testing set. The advantage of this method over repeated random sub-sampling is that all observations are used for both training and validation, and each observation is used for validation exactly once. The testing accuracy of each fold will be averaged to evaluate the model's performance. 
 
 \begin{figure}[h]
 	\centering
@@ -152,7 +155,7 @@ K-Fold CV (Fig.\,\ref{kfold}) is where a given data set is split into a K number
 
 
 \section{Image data augmentation}
-The performance of deep learning neural networks often improves with the amount of data available. Data augmentation is a technique to artificially create new training data from existing training data. This is done by applying domain-specific techniques to examples from the training data that create new and different training examples.
+The performance of deep learning neural networks often improves with the amount of data available. Data augmentation is a technique to artificially create new training data from existing training data  \citep{Mikolajczyk2018}. This is done by applying domain-specific techniques to examples from the training data that create new and different training examples.
 Image data augmentation (Fig.\,\ref{dataaug}) is perhaps the most well-known type of data augmentation and involves creating transformed versions of images in the training dataset that belong to the same class as the original image.
 
 \begin{figure}[h]

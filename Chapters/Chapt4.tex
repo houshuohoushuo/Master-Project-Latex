@@ -3,7 +3,7 @@
 
 %%%%%%%%%%%%%%%%%%
 \section{Dataset}
-The dataset is obtained from western university. It contains 90 specimen samples, each of which has an Ultrasound (US) image stack and a Photoacoustic (PAT) image stack. The type of cancer (class) of each specimen is given in the dataset. The distribution of classes is 
+The dataset is obtained from the study of \cite{Kosik2019}. It contains 90 specimen samples, each of which has an Ultrasound (US) image stack and a Photoacoustic (PAT) image stack. The type of cancer (class) of each specimen is given in the dataset. The distribution of classes is 
 {'B': 33, 'C': 21, 'A': 8, 'F': 6, 'E': 5, 'G': 5, 'H': 2, 'I': 2, 'K': 2, 'D': 1, 'L': 1, 'N': 1, 'J': 1, 'M': 1}.  
 In this project, only class B and C are used. B has 33 samples and C has 21 samples. The other classes have too few samples to train a neural network on. 
 
@@ -25,79 +25,78 @@ The specimen samples are divided into training set and testing set by 0.8 ratio,
 Machine learning requires large amounts of data. While our dataset is very small, data augmentation is used to artificially expand the number of samples. Augmentation Scaling Factor is set to 5, meaning five images are created from one by Rotation, Cropping, Horizontal and Vertical Flip. Then, the images are resized to (200,200).
 
 \section{Training}
-"Adam" optimizer is used in all models to minimize the categorical cross-entropy across two classes. Adam is a replacement optimization algorithm for classic stochastic gradient descent. Adam can adaptively adjust the learning parameters based on the average first moment, as well as the average of the second moments of the gradients. The parameters of Adam optimizer is set to default. Training epoch is 50, all samples are passed to the network 50 times, with a batch size of 64. Best set of weights is saved. All parameters can be modified in YAML format for easier parameter fine tuning.
+Adam \citep{adam} optimizer is used in all models to minimize the categorical cross-entropy across two classes. Adam is a replacement optimization algorithm for classic stochastic gradient descent. Adam can adaptively adjust the learning parameters based on the average first moment, as well as the average of the second moments of the gradients. The parameters of Adam optimizer is set to default. Training epoch is 50, all samples are passed to the network 50 times, with a batch size of 64. Best set of weights is saved. All parameters can be modified in YAML format for easier parameter fine tuning.
 
 
 \section{Training Curves}
-
-From the training curves, we can see that all training loss is decreasing and accuracy is increasing. However, the validation loss and accuracy is very noise, and do not have much improvement. Note that there is a large gap between training and validation curves. This indicates that the training dataset is unrepresentative, which means the training dataset does not provide sufficient information to learn the problem. We have too few examples in the dataset. From the noisy validation curves, we can conclude that the validation dataset is also unrepresentative. A  unrepresentative validation set means that it does not provide sufficient information to evaluate the ability of the model to generalize. This could occur when the validation dataset has too few examples.
+The learning process of a neural network can be investigated through training curves \citep{Anzanello2011}.
+From Fig.\,\ref{fig:loss} and Fig.\,\ref{fig:acc}, we can see that all training loss is decreasing and accuracy is increasing. However, the validation loss and accuracy is very noise, and do not have much improvement. Note that there is a large gap between training and validation curves. This indicates that the training dataset is unrepresentative, which means the training dataset does not provide sufficient information to learn the problem. We have too few examples in the dataset. From the noisy validation curves, we can conclude that the validation dataset is also unrepresentative. A  unrepresentative validation set means that it does not provide sufficient information to evaluate the ability of the model to generalize. This could occur when the validation dataset has too few examples.
 
 \begin{figure}
 \centering
 \begin{subfigure}[b]{.3\linewidth}
 \includegraphics[width=\linewidth]{Figs/small_us_loss.jpg}
-\caption{Small loss US}\label{fig:mouse}
+\caption{Small loss US}
 \end{subfigure}
 \begin{subfigure}[b]{.3\linewidth}
 \includegraphics[width=\linewidth]{Figs/resnet_us_loss.jpg}
-\caption{ResNet loss US}\label{fig:gull}
+\caption{ResNet loss US}
 \end{subfigure}
 \begin{subfigure}[b]{.3\linewidth}
-\includegraphics[width=\linewidth]{Figs/resnet_us_loss.jpg}
-\caption{VGG loss US}\label{fig:tiger}
+\includegraphics[width=\linewidth]{Figs/vgg_us_loss.jpg}
+\caption{VGG loss US}
 \end{subfigure}
 
 \begin{subfigure}[b]{.3\linewidth}
 \includegraphics[width=\linewidth]{Figs/small_pat_loss.jpg}
-\caption{Small loss PAT}\label{fig:tiger}
+\caption{Small loss PAT}
 \end{subfigure}
 \begin{subfigure}[b]{.3\linewidth}
 \includegraphics[width=\linewidth]{Figs/resnet_pat_loss.jpg}
-\caption{ResNet loss PAT}\label{fig:tiger}
+\caption{ResNet loss PAT}
 \end{subfigure}
 \begin{subfigure}[b]{.3\linewidth}
-\includegraphics[width=\linewidth]{Figs/resnet_pat_loss.jpg}
-\caption{VGG loss PAT}\label{fig:tiger}
+\includegraphics[width=\linewidth]{Figs/vgg_pat_loss.jpg}
+\caption{VGG loss PAT}
 \end{subfigure}
 \caption{Model loss}
 \label{fig:loss}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h!]
 \centering
 \begin{subfigure}[b]{.3\linewidth}
 \includegraphics[width=\linewidth]{Figs/small_us_acc.jpg}
-\caption{Small accuracy US}\label{fig:mouse}
+\caption{Small accuracy US}
 \end{subfigure}
 \begin{subfigure}[b]{.3\linewidth}
 \includegraphics[width=\linewidth]{Figs/resnet_us_acc.jpg}
-\caption{ResNet accuracy US}\label{fig:gull}
+\caption{ResNet accuracy US}
 \end{subfigure}
 \begin{subfigure}[b]{.3\linewidth}
-\includegraphics[width=\linewidth]{Figs/resnet_us_acc.jpg}
-\caption{VGG accuracy US}\label{fig:tiger}
+\includegraphics[width=\linewidth]{Figs/vgg_us_acc.jpg}
+\caption{VGG accuracy US}
 \end{subfigure}
 
 \begin{subfigure}[b]{.3\linewidth}
 \includegraphics[width=\linewidth]{Figs/small_pat_acc.jpg}
-\caption{Small accuracy PAT}\label{fig:tiger}
+\caption{Small accuracy PAT}
 \end{subfigure}
 \begin{subfigure}[b]{.3\linewidth}
 \includegraphics[width=\linewidth]{Figs/resnet_pat_acc.jpg}
-\caption{ResNet accuracy PAT}\label{fig:tiger}
+\caption{ResNet accuracy PAT}
 \end{subfigure}
 \begin{subfigure}[b]{.3\linewidth}
-\includegraphics[width=\linewidth]{Figs/resnet_pat_acc.jpg}
-\caption{VGG accuracy PAT}\label{fig:tiger}
+\includegraphics[width=\linewidth]{Figs/vgg_pat_acc.jpg}
+\caption{VGG accuracy PAT}
 \end{subfigure}
 \caption{Model accracy}
-\label{fig:loss}
+\label{fig:acc}
 \end{figure}
 
 
-
 \section{Accuracy and $F_1$ score}
-The $F_1$ score (also F-score) is a measure of a test's accuracy. It considers both the precision $p$ and the recall $r$ of the test to compute the score: $p$ is the number of correct positive results divided by the number of all positive results returned by the classifier, and $r$ is the number of correct positive results divided by the number of all relevant samples (all samples that should have been identified as positive). The $F_1$ score is the harmonic average of the precision and recall, where an $F_1$ score reaches its best value at 1 (perfect precision and recall) and worst at 0.
+The $F_1$ score (also F-score) is a measure of a test's accuracy \citep{powers2011evaluation}. It considers both the precision $p$ and the recall $r$ of the test to compute the score: $p$ is the number of correct positive results divided by the number of all positive results returned by the classifier, and $r$ is the number of correct positive results divided by the number of all relevant samples (all samples that should have been identified as positive). The $F_1$ score is the harmonic average of the precision and recall, where an $F_1$ score reaches its best value at 1 (perfect precision and recall) and worst at 0.
 Formally: $$F_1 score = 2 \cdot \frac{precision \cdot recall}{precision + recall}$$
 Presition $$p = \frac{TP}{TP + FP}$$
 Recall $$r = \frac{TP}{TP + FN}$$
@@ -105,7 +104,6 @@ True Positives (TP): Samples which we predicted belong to a class, and they are 
 True Negatives (TN): Samples which we predicted not belong to a class, and they are indeed not in that class.\\*
 False Positives (FP): We predicted in a class, but they are actually not.\\*
 False Negatives (FN): We predicted not in a class, but they are actually in.\\*
-
 
 \begin{table}[h]
 \centering
