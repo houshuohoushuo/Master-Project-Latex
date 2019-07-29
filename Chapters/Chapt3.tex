@@ -7,14 +7,14 @@ In this section, three CNN architectures are discussed. A shallow five-layer CNN
 \section{Small CNN}
 Small CNN architecrure is dirived from \cite{Dhindsa2018}, which were used in grading the servery of prenatal hydronephrosis (PHN). Small CNN has five convolutional layer, followed by a fully connected layer of 512 units and an output layer. Each layer (convolutional and fully connected) uses units with rectified linear (ReLU) activation functions. The output layer uses SoftMax activation function for classification. 
 
-The first convolutional layer contains 16 filters with an input patch of 7x7 pixels. The second layer has 32 filters and an input patch size of 5x5 pixels. The following three convolutional layers contain 64 filters with patch size of 3x3 pixels. A stride is set to 1 in all convolutional layers. Padding is set to ‘same’, which results in padding the input such that the output has the same length as the original input.
+The first convolutional layer contains 16 filters with an input patch of 7 x 7 pixels. The second layer has 32 filters and an input patch size of 5 x 5 pixels. The following three convolutional layers contain 64 filters with patch size of 3 x 3 pixels. A stride is set to 1 in all convolutional layers. Padding is set to ‘same’, which results in padding the input such that the output has the same length as the original input.
 
-Each convolutional layer is followed by a max pooling layer with 3x3 patch with a stride of 2x2 pixels (a stride less than the pooling patch size has been demonstrated to improve DCNN performance for some computer vision tasks [12]). Pooling integrates the learned features in local patches and reduces the size of the image for subsequent layers. 
+Each convolutional layer is followed by a max pooling layer with 3 x 3 patch with a stride of 2 x 2 pixels. Pooling integrates the learned features in local patches and reduces the size of the image for subsequent layers. 
 
 In addition to data augmentation, to reduce over fitting, batch normalization was performed after each convolutional layer, which normalizes the statistics of activations in a layer after a batch of images. In order to make training more robust and efficient, dropout is added after the fully connected layer to reduce overfitting and to promote learning more independent features.
 
 \section{VGG}
-VGG \citep{vgg} is a ConvNet architecture that has significantly higher accuracy than prior ConvNets. It achieved the state-of-the-art accuracy on ILSVRC 2015 classification and localisation tasks. 
+VGG \citep{vgg} is a ConvNet architecture that has significantly higher accuracy than prior ConvNets. It achieved the state-of-the-art accuracy on ILSVRC 2015 classification and localization tasks. 
 
 The image is passed through a stack of convolutional layers. The filter that is used has a very small receptive field: 3 x 3 (which is the smallest size to capture the notion of left/right, up/down, center). Padding is set to "same". The convolution stride is 1. A max-pooling layer is added after two convolution layers for the first two blocks. For the third, fourth and fifth block, the setup is four convolution layers then max-pooling layer. All max-pooling is performed over a 2 x 2 pixel window, with stride 2x2 pixels. A stack of convolutional and max-pooling blocks is followed by three Fully-Connected (FC) layers: the first two have 4096 channels each, the third performs classification.All hidden layers are equipped with the rectification (ReLU) activation function. The final layer is Softmax for classification. Dropout layers are added between two FC layers. Dropout rate is set to 0.5. Fig.\,\ref{VGG} shows a VGG19 architecture.
 
@@ -60,28 +60,29 @@ From experiments, result show that "1) The extremely deep residual nets are easy
 
 Residual Learning:
 Let $\mathcal{H}(\mathbf{x})$ denote an underlying mapping to be fit by a few stacked layers (not necessarily the entire net), with $\mathbf{x}$ denoting the inputs to the first of these layers. If one hypothesizes that multiple nonlinear layers can asymptotically approximate complicated functions, then it is equivalent to hypothesize that they can asymptotically approximate the residual functions, i.e., $\mathcal{H}(\mathbf{x}) - \mathbf{x}$ (assuming that the input and output are of the same dimensions). So rather than expect stacked layers to approximate $\mathcal{H}(\mathbf{x})$, we explicitly let these layers approximate a residual function $\mathcal{F}(\mathbf{x}) := \mathcal{H}(\mathbf{x})-\mathbf{x}$. The original function thus becomes $\mathcal{F}(\mathbf{x})+\mathbf{x}$. Although both forms should be able to asymptotically approximate the desired functions (as hypothesized), the ease of learning might be different. 
+
 This reformulation is motivated by the counter-intuitive phenomena about the degradation problem. If the added layers can be constructed as identity mappings, a deeper model should have training error no greater than its shallower counterpart. The degradation problem suggests that the solvers might have difficulties in approximating identity mappings by multiple nonlinear layers. With the residual learning reformulation, if identity mappings are optimal, the solvers may simply drive the weights of the multiple nonlinear layers toward zero to approach identity mappings. 
-In real cases, it is unlikely that identity mappings are optimal, but our reformulation may help to precondition the problem. If the optimal function is closer to an identity mapping than to a zero mapping, it should be easier for the solver to find the perturbations with reference to an identity mapping, than to learn the function as a new one. We show by experiments (Fig. 7) that the learned residual functions in general have small responses, suggesting that identity map- pings provide reasonable preconditioning. 
+
+In real cases, it is unlikely that identity mappings are optimal, but the reformulation may help to precondition the problem. If the optimal function is closer to an identity mapping than to a zero mapping, it should be easier for the solver to find the perturbations with reference to an identity mapping, than to learn the function as a new one.
 
 Identity Mapping by Shortcuts: 
-We adopt residual learning to every few stacked layers. A building block is shown in Fig.\,\ref{residualblock}. Formally, we define a building block as: 
+Every few stacked layers are equipped with a residual connection. A building block is shown in Fig.\,\ref{residualblock}. Formally, we define a building block as: 
 \begin{equation} \label{eq1}
 \mathbf{y} = \mathcal{F} (\mathbf{x}, \{W_i\}) + \mathbf{x}
 \end{equation}
 
-Here x and y are the input and output vectors of the layers considered. The function $\mathcal{F} (\mathbf{x}, \{W_i\})$ represents the residual mapping to be learned. For the example in Fig.\,\ref{residualblock} that has two layers, $\mathcal{F}=W_2\sigma(W_1\mathbf{X})$ in which $\sigma$ denotes ReLU activation function and the biases are omitted for simplifying notations. The operation $\mathcal{F} + \mathbf{x}$ is performed by a shortcut connection and element-wise addition. We adopt the second nonlinearity $\sigma(\mathbf{y})$ after the addition. The shortcut connections in Equation(\ref{eq1}) introduce neither extra parameter nor computation complexity. This is not only attractive in practice but also important in our comparisons between plain and residual networks. We can fairly compare plain/residual networks that simultaneously have the same number of parameters, depth, width, and computational cost (except for the negligible element-wise addition). 
-The dimensions of $\mathbf{x}$ and $\mathcal{F}$ must be equal in Equation(\ref{eq1}). If this is not the case (e.g., when changing the input/output channels), we can perform a linear projection $W_s$ by the shortcut connections to match the dimensions: 
+Here $\mathbf{x}$ and $\mathbf{y}$ are the input and output vectors of the layers considered. The function $\mathcal{F} (\mathbf{x}, \{W_i\})$ represents the residual mapping to be learned. For the example in Fig.\,\ref{residualblock} that has two layers, $\mathcal{F}=W_2\sigma(W_1\mathbf{X})$ in which $\sigma$ denotes ReLU activation function and the biases are omitted for simplifying notations. The operation $\mathcal{F} + \mathbf{x}$ is performed by a shortcut connection and element-wise addition. We adopt the second nonlinearity $\sigma(\mathbf{y})$ after the addition. The shortcut connections in Equation(\ref{eq1}) introduce neither extra parameter nor computation complexity. The dimensions of $\mathbf{x}$ and $\mathcal{F}$ must be equal in Equation(\ref{eq1}). If this is not the case (e.g., when changing the input/output channels), we can perform a linear projection $W_s$ by the shortcut connections to match the dimensions: 
 
 \begin{equation} \label{eq2}
 \mathbf{y} = \mathcal{F} (\mathbf{x}, \{W_i\}) + W_s \mathbf{x}
 \end{equation}
 
-We can also use a square matrix $W_s$ in Equation(\ref{eq1}). But we will show by experiments that the identity mapping is sufficient for addressing the degradation problem and is economical, and thus $W_s$ is only used when matching dimensions. 
+$W_s$ is identity mapping and only used when matching dimensions. 
 
 Although the above notations and equations only demonstrate fully-connected layers for simplicity, they are also applicable to convolutional layers. The function $\mathcal{F} (\mathbf{x}, \{W_i\})$ can represent multiple convolutional layers. The elementwise addition is performed on two feature maps.
 
 Network Architecture:
-We have two types of ResNet block, depending on whether the input/output dimensions are same or different.
+There are two types of ResNet block, depending on whether the input/output dimensions are same or different (Eq.\ref{eq1} or Eq.\ref{eq2}).
 
 \begin{figure}[h]
 	\centering
