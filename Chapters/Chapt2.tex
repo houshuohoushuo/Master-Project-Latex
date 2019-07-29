@@ -4,10 +4,10 @@
 
 \section{Neural Networks}
 
-The term Neural Network (NN) refers to a computational model that is artificially built in computers. The artificial Neural Network is inspired by the way biological neural networks in the human brain process information. Artificial Neural Networks have generated a lot of excitement in Machine Learning research and industry, thanks to many breakthrough results in speech recognition, computer vision and text processing. In this section, we will discuss the fundamentals of a Neural Network.
+The term Neural Network (NN) refers to a computational model that is artificially built in computers. The artificial Neural Network is inspired by the way biological neural networks in the human brain process information. Artificial Neural Network is the most powerful Machine Learning model. Neural Networks are recognized for many breakthrough achievements in speech recognition, computer vision and text processing. In this section, we will discuss the fundamentals of a Neural Network.
 
 \subsection{A Single Neuron}
-Neuron, or node, is a basic computation unit in NN. It simply takes some inputs $(x_1,...,x_n)$ and computes an output Y. Each input has an associated weight $(w_1,...,w_n)$, which is assigned on the basis of its relative importance to other inputs. The node applies a function $f$ to the weighted sum of its inputs (and a bias term $b$). The output of a node is $f(w_1 \cdot x_1 +...+ w_n \cdot x_n + b)$, shown in Fig.\,\ref{node}.
+Neuron, or node, is a basic computation unit in NN. It simply takes some inputs $\mathbf{x} = (x_0,...,x_i)$ and computes an output. Each input has an associated weight $(w_0,...,w_i)$, which is assigned on the basis of its relative importance to other inputs. The node applies a function $f$ to the weighted sum of its inputs (and a bias term $b$). The output of a node is $f(w_1x_1 +...+ w_ix_i + b)$, shown in Fig.\,\ref{node}.
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.5]{Figs/node.png}
@@ -38,18 +38,19 @@ The function $f$ is non-linear and is called the Activation Function. The purpos
 The simplest Neural Network is a feedforward fully connected network. It is formed by one or multiple layers of nodes. Nodes in adjacent layers have connections between them. A connection represents a set of weights.
 
 
-\noindent An example of a feedforward neural network is shown in Fig.\,\ref{feedforward}.
+\noindent An example of a two hidden layer feedforward neural network is shown in Fig.\,\ref{two_layer}.
+
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.5]{Figs/feedforward.png}
+	\includegraphics[scale=0.5]{Figs/2hidden.png}
     \caption{Feedforward Neural Network}
-    \label{feedforward}
+    \label{two_layer}
 \end{figure}
 
 A feedforward neural network can consist of three types of nodes:
 
 \begin{enumerate}
-\item Input Nodes – The Input nodes take in a input $X$ in the form of vector $(x_1,...,x_n)$. These nodes are together referred to as the “Input Layer”. No computation is performed in any of the Input nodes – they just pass on the information to the hidden nodes.
+\item Input Nodes – The Input nodes take in a input $\mathbf{x}$ in the form of vector $(x_0,...,x_i)$. These nodes are together referred to as the “Input Layer”. No computation is performed in any of the Input nodes – they just pass on the information to the hidden nodes.
 
 \item Hidden Nodes – The Hidden nodes are in between Input Layer and Output Layer. They have no direct connection with the network input and the network output, thus they are called "Hidden" and form "Hidden Layer". After training, Hidden Node will learn some relationship (non-linearality) between its input and output. A feedforward network can have zero, one, or multiple Hidden Layers.
 
@@ -61,43 +62,102 @@ In a feedforward network, the information moves in only one direction – forwar
 
 
 \subsection{Multi Layer Perceptron}
-A Multi Layer Perceptron (MLP) contains one or more hidden layers (apart from one input and one output layer).  While a single layer perceptron can only learn linear functions, a multilayer perceptron can also learn non-linear functions.
-
-Fig.\,\ref{mlp} shows a multilayer perceptron with a single hidden layer. Note that all connections have weights associated with them, but only three weights $(w_1,...,w_n)$ are shown in the figure.
+A Multi Layer Perceptron (MLP) contains one or more hidden layers (apart from one input and one output layer). The capacity of the network increases with more hidden units and more hidden layers (Fig.\,\ref{anyfunction}). A multilayer perceptron with at least one hidden layer can represent any function \citep{Cybenko1989}.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.5]{Figs/multilayer.png}
-    \caption{Multi Layer Perceptron}
-    \label{mlp}
+	\includegraphics[scale=0.5]{Figs/anyfunction.png}
+    \caption{Non-linear decision boundary}
+    \label{anyfunction}
 \end{figure}
 
-\textbf{Input Layer}: The Input layer has three nodes. The Bias node has a value of 1. The other two nodes take in the input $X = (x_1,x_2)$. These values form the Input Layer and are passed to the Hidden Layer.
 
-\textbf{Hidden Layer}: The Hidden layer also has three nodes with the Bias node having an output of 1. The output of the other two nodes in the Hidden layer depends on the Input layer $(b, x_1, x_2)$ as well as the weights $(w_0,w_1,...,w_n)$ associated with the connections (edges). Fig.\,\ref{mlp} shows the output calculation for one of the hidden nodes (highlighted). $Y_{Node} = f(\sum{w_0+w_1x_1+w_2x_2})$, where $f$ is an activation function.
+Fig.\,\ref{one_layer} shows a multilayer perceptron with a single hidden layer. Each connection has a weight associated with it.
 
-\textbf{Output Layer}: The Output layer has two nodes which take inputs from the Hidden layer and perform similar computations as shown for the highlighted hidden node. The values calculated $(y_1,y_2)$ as a result of these computations act as output $\hat{Y}$ of the Multi Layer Perceptron.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{Figs/1hidden.png}
+    \caption{Feedforward Neural Network}
+    \label{one_layer}
+\end{figure}
 
-Given a set of features $X = (x_1,...,x_n)$ and a target $Y = (y_1,..,y_n)$, a Multi Layer Perceptron can learn the relationship between the features and the target, for either classification or regression.
+
+\textbf{Input Layer}: The Input layer has three nodes. The Bias is emitted for simplicity but has a value of 1. The nodes take in the input $\mathbf{x} = (x_1,x_2,x_3)$. These values form the Input Layer and are passed to the Hidden layer with no computation.
+
+\textbf{Hidden Layer}: The Hidden layer has four nodes. To distinguish from the output layer, here let $v$ denote a weight and $h$ denote the output of a neuron in hidden layer. $D$ denotes the number of inputs. The output of the $j$th neuron is $h_j(\mathbf{x}) = f(v_{j0}+\sum_{i=1}^{D=3} x_iv_{ji})$. $f$ is an activation function.
+
+\textbf{Output Layer}: The Output layer has two nodes which take inputs from the Hidden layer and perform similar computations.
+$w$ denote a weight and $o$ denote the output of a neuron in output layer. The output of the $k$th neuron is $o_k(\mathbf{x}) = g(w_{k0}+\sum_{j=1}^{J=4} h_j(\mathbf{x}) w_{kj})$. $g$ is also an activation function.
+
+Given a set of features $\mathbf{x} = (x_1,...,x_n)$ and a target $\mathbf{t} = (t_1,..,t_n)$, a Multi Layer Perceptron can learn the relationship between the features and the target, for either classification or regression.
+
+\newcommand{\argminE}{\mathop{\mathrm{argmin}}}  
+
+\subsection{Forward and Backward Propagation}
+There are two phases in the learning process, forward and backward. Forward phase is making output prediction from the given input.
+Backward phase is backward propagation of errors. A Neural Network learns through Back-Propagation by calculating the error from the output $\mathbf{o}$ to the target value $\mathbf{t}$, then improving the weights in all nodes. The learning is "supervised", meaning the target value $\mathbf{t}$ must be given to the network respect to each input  $\mathbf{x}$ in training. The objective of learning is to get $\mathbf{w}^* = \argminE_\mathbf{w} \sum_{n=1}^N loss(\mathbf{o}^{(n)},\mathbf{t}^{(n)})$, where $\mathbf{o} = f(\mathbf{x};\mathbf{w})$ is the output of the network. With hidden units, this objective is not convex. We can minimize the function by gradient descent (no guarantees gradient methods would not end up in a local minima/saddle point, but experiments evidence that most local minimas are almost as good as the global minima).
+
+A loss function $L$ measures the error between network output $\mathbf{o}$ and the true value $\mathbf{t}$. Let $E$ denote such error. For clarity, we can expand the output layer as shown in Fig.\,\ref{expand2}. $o_k$ is the output of unit $k$, $g$ is the output layer activation function, $z_{k}$ is the net input to output unit $k$, $w_{ki}$ is the weight from input $i$ to $k$. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{Figs/singlelayer2.png}
+    \caption{Single Layer Network}
+    \label{expand2}
+\end{figure}
+
+Error gradients for single layer network is 
+$$\frac{\partial E}{\partial w_{ki}} = 
+    \frac{\partial E}{\partial o_{k}} 
+    \frac{\partial o_{k}}{\partial z_{k}} 
+    \frac{\partial z_{k}}{\partial w_{ki}} $$
+
+Error at output $o_k$ is $\delta_k^o =  \frac{\partial E}{\partial o_{k}} $.
+
+$$\frac{\partial E}{\partial w_{ki}} = 
+    \frac{\partial E}{\partial o_{k}} 
+    \frac{\partial o_{k}}{\partial z_{k}} 
+    \frac{\partial z_{k}}{\partial w_{ki}} 
+    =  
+    \delta_k^o 
+    \frac{\partial o_{k}}{\partial z_{k}} 
+    \frac{\partial z_{k}}{\partial w_{ki}}  
+    $$
+
+Since $o_k = g(z_k)$, $$\delta_k^z = \delta_k^o \cdot \frac{\partial o_{k}}{\partial z_{k}}$$
+Then we have 
+$$\frac{\partial E}{\partial w_{ki}} = \delta_k^z \frac{\partial z_{k}}{\partial w_{ki}} =  \delta_k^z \cdot x_i$$ 
 
 
-\subsection{Back-Propagation}
-Back-Propagation refers to the backward propagation of errors. A Neural Network learns through Back-Propagation by calculating the error from the output $\hat{Y}$ to the true value $Y$, then improving the weights in all nodes. The learning is "supervised", meaning the true value $Y$ must be given to the network respect to each input $X$ in training.
+Assuming the error function is mean-squared error (MSE), on a single training example $n$, we have:
+$$\frac{\partial E}{\partial o_k^{(n)}} = o_k^{(n)} - t_k^{(n)} := \delta_k^o$$
 
-A loss function $L$ measures the error between network output $\hat{Y}$ and the true value $Y$. The cost of one set of weights is defined as $\mathcal{L}(W)$
-$$\mathcal{L}(W)= \frac{\mathrm{1}}{n}\sum_{i=1}^{n} L(Y^i,\hat{Y}^i) = \frac{\mathrm{1}}{n}\sum_{i=1}^{n} L(Y^i,f(X^i,W))$$
-Where $Y^i$ are the true values, $X^i$ are the inputs, $\hat{Y}^i$ are the network outputs corresponds to $X^i$. $W$ is the set of weights, and $f$ is the activation function.
+Using logistic activation functions:
+$$ o_k^{(n)} = g(z_k^{(n)}) = (1 + \exp(-z_k^{(n)}))^{-1}$$
+$$\frac{\partial o_k^{(n)}}{\partial z_k^{(n)}} = o_k^{(n)}(1-o_k^{(n)})$$
+The error gradient is then:
+$$\frac{\partial E}{\partial w_{ki}} =  \sum_{n=1}^N \frac{\partial E}{\partial o_{k}^{(n)}}\frac{\partial o_{k}^{(n)}}{\partial z_{k}^{(n)}} \frac{\partial z_{k}^{(n)}}{\partial w_{ki}} = \sum_{n=1}^N (o_k^{(n)} - t_k^{(n)})o_k^{(n)} (1-o_k^{(n)}) x_i^{(n)}$$
 
-There are many loss functions to measure different kind of errors. For a classification problem, which is this project, Cross Entropy loss is used. Cross Entropy is defined as:
-$$\mathcal{L}=-\frac{\mathrm{1}}{n}\sum_{i=1}^{n}[Y^i \log(\hat{Y}^i)+(1-Y^i) \log(1-\hat{Y}^i)]$$
-measures the divergence between two probability distributions. Minimizing the cross entropy increases the similarities between the two distributions. The use of cross entropy as a loss function is commonly paired with the use of a Sigmoid activation function $\sigma$ when dealing with binary classification. Substituting a Sigmoid activation function $\sigma$
-$$\mathcal{L}=-\frac{\mathrm{1}}{n}\sum_{i=1}^{n}[Y^i \log(\sigma(W \cdot X^i))+(1-Y^i) \log(1-\sigma(W \cdot X^i))]$$
-The derivative w.r.t weights $W$ is:
-$$\frac{\partial \mathcal{L}}{\partial W} = (Y - \sigma(W \cdot X))\cdot X$$
-The $\sigma'(W \cdot X)$ term is eliminated, which makes it easy for calculation.
-Then the learning is performed by updating W
-$$ W = W - \eta\cdot\nabla\mathcal{L}$$
-where $\eta$ is a pre-defined learning rate. Often times, the learning rate is difficult to set. If it is too large, the local and global minima can be “overshot”, leading to slow convergence, and if the learning rate is too small, it can take a long time to converge to an acceptable minimum. “Adaptive Moment Estimation (Adam)” \citep{adam} optimizer was invented to adaptively set the learning rate during training.
+The gradient descent update rule is given by:
+$$w_{ki} := w_{ki} - \eta \frac{\partial E}{\partial w_{ki}} = w_{ki} - \eta  \sum_{n=1}^N (o_k^{(n)} - t_k^{(n)})o_k^{(n)} (1-o_k^{(n)}) x_i^{(n)}$$
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{Figs/multilayerbackprop.png}
+    \caption{Multi Layer Network}
+    \label{multi}
+\end{figure}
+
+where $\eta$ is a pre-defined learning rate. The output weight gradients for a multi-layer network are the same as for a single layer network (Fig.\,\ref{multi}):
+$$\frac{\partial E}{\partial w_{kj}} =  \sum_{n=1}^N \frac{\partial E}{\partial o_{k}^{(n)}}\frac{\partial o_{k}^{(n)}}{\partial z_{k}^{(n)}} \frac{\partial z_{k}^{(n)}}{\partial w_{kj}} = \sum_{n=1}^N \delta_k^{z,(n)} h_j^{(n)}$$
+where $\delta_k$ is the error w.r.t. the net input for unit $k$. Hidden weight gradients are then computed via back propagation:
+$$\frac{\partial E}{\partial h_{j}^{(n)}} =  \sum_{k} \frac{\partial E}{\partial o_{k}^{(n)}}\frac{\partial o_{k}^{(n)}}{\partial z_{k}^{(n)}} \frac{\partial z_{k}^{(n)}}{\partial h_{j}^{(n)}} = \sum_{k} \delta_k^{z,(n)} w_{kj} := \delta_j^{h,(n)}$$
+$$ \frac{\partial E}{\partial v_{ji}} 
+= \sum_{n=1}^N \frac{\partial E}{\partial h_{j}^{(n)}}\frac{\partial h_{j}^{(n)}}{\partial u_{j}^{(n)}} \frac{\partial u_j^{(n)}}{\partial v_{ji}}
+= \sum_{n=1}^N \delta_j^{h,(n)} f'(u_j^{(n)})\frac{\partial u_j^{(n)}}{\partial v_{ji}} 
+= \sum_{n=1}^N \delta_j^{u,(n)} x_i^{(n)} $$
+
+Often times, the learning rate $\eta$ is difficult to set. If it is too large, the local and global minima can be “overshot”, leading to slow convergence, and if the learning rate is too small, it can take a long time to converge to an acceptable minimum. “Adaptive Moment Estimation (Adam)” \citep{adam} optimizer was invented to adaptively set the learning rate during training.
 
 
 \section{Convolutional Neural Networks}
@@ -155,16 +215,17 @@ K-Fold Cross Validation \citep{Kohavi95astudy} (Fig.\,\ref{kfold}) is where a gi
 
 
 \section{Image data augmentation}
-The performance of deep learning neural networks often improves with the amount of data available. Data augmentation is a technique to artificially create new training data from existing training data  \citep{Mikolajczyk2018}. This is done by applying domain-specific techniques to examples from the training data that create new and different training examples.
-Image data augmentation (Fig.\,\ref{dataaug}) is perhaps the most well-known type of data augmentation and involves creating transformed versions of images in the training dataset that belong to the same class as the original image.
+
+The performance of deep learning neural networks often improves with the amount of data available. Data augmentation is a technique to artificially create new training data from existing training data \citep{Mikolajczyk2018}. This is done by applying domain-specific techniques to examples from the training data that create new and different training examples.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.5]{Figs/dataaug.png}
+	\includegraphics[width=.5\textwidth]{Figs/dataaug.jpg}
     \caption{Image Data Augmentation}
     \label{dataaug}
 \end{figure}
-Transforms include a range of operations from the field of image manipulation, such as shifts, flips, zooms, crops.
+
+Image data augmentation (Fig.\,\ref{dataaug}) is perhaps the most well-known type of data augmentation and involves creating transformed versions of images in the training dataset that belong to the same class as the original image. Transforms include a range of operations from the field of image manipulation, such as shifts, flips, zooms, crops.
 
 Convolutional neural network can learn features that are invariant to their location in the image. Image augmentation can further aid in this transform invariant approach to learning and can aid the model in learning features that are also invariant to transforms such as left-to-right to top-to-bottom ordering. Image data augmentation is typically only applied to the training dataset, and not to the validation or test dataset. 
 

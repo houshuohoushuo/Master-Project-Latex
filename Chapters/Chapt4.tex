@@ -7,7 +7,7 @@ The dataset is obtained from the study of \cite{Kosik2019}. It contains 90 speci
 {'B': 33, 'C': 21, 'A': 8, 'F': 6, 'E': 5, 'G': 5, 'H': 2, 'I': 2, 'K': 2, 'D': 1, 'L': 1, 'N': 1, 'J': 1, 'M': 1}.  
 In this project, only class B and C are used. B has 33 samples and C has 21 samples. The other classes have too few samples to train a neural network on. 
 
-For each image stack, US and PAT, the centre few images are extracted to use for training and testing. In a top-down scan of a specimen, the centre few images usually have the most detail and thus have most information of the specimen which work the best in classifying the specimen. An example of image stack is shown in Fig.\,\ref{stack}.
+For each image stack, US and PAT, the centre few images are extracted to use for training and testing. In a top-down scan of a specimen, the centre few images usually have the most detail and thus have most information of the specimen which work the best in classifying the specimen. An example of image stack is shown in Fig.\,\ref{stack}. 
 
 \begin{figure}[h]
 	\centering
@@ -16,8 +16,46 @@ For each image stack, US and PAT, the centre few images are extracted to use for
     \label{stack}
 \end{figure}
 
-We can see that the top few and bottom few scans have very low quality and lack of detail of the internal texture. The scans close to centre are larger in size and have the texture that classification could depend on.
+We can see that the top few and bottom few scans have very low quality and lack of detail of the internal texture. The scans close to centre are larger in size and have the texture that classification could depend on. However, they are still not in good quality. Examples randomly selected are shown in Fig.\,\ref{pat_us_example}.
 
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/PAT014_18.jpg}
+\caption{AF014 PAT}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/PAT023_23.jpg}
+\caption{AF023 PAT}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/PAT36.png}
+\caption{AF036 PAT}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/PAT055_11.jpg}
+\caption{AF055 PAT}
+\end{subfigure}
+
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/US14_18.jpg}
+\caption{AF014 US}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/US23_23.jpg}
+\caption{AF023 US}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/US36.png}
+\caption{AF036 US}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/US55_13.jpg}
+\caption{AF055 US}
+\end{subfigure}
+\caption{Extracted PAT and US examples}
+\label{pat_us_example}
+\end{figure}
 
 \section{Data Partition and Augmentation}
 The specimen samples are divided into training set and testing set by 0.8 ratio, 5-fold cross validation is used. Centre 6 images are extracted from a stack. No image from the same stack is separated into training and testing set. This is to ensure overfitting due to within-sample image similarities would not be possible. Because the number of samples in class B and C is not balanced, K-fold data partitioning is done by using Stratified k-fold. "StratifiedKFold is a variation of k-fold which returns stratified folds: each set contains approximately the same percentage of samples of each target class as the complete set". Each of the five folds is used as a test set once and only once. Accuracy and $F_1$ score is averaged across five folds.
@@ -113,12 +151,16 @@ False Negatives (FN): We predicted not in a class, but they are actually in.\\*
  \hline
  Small  US   & 0.66  & 0.77 &  0.23\\
  ResNet US   & 0.75  & 0.82 &  0.55\\
- VGG US      & AL  & ALB &  008\\
+ VGG US      & 0.61  & 0.76 &  0\\
  Small PAT   & 0.71  & 0.79 &  0.50\\
  ResNet PAT  & 0.76  & 0.83 &  0.57\\
- VGG PAT     & AD  & AND &  020\\
+ VGG PAT     & 0.61  & 0.76 &  0\\
  \hline
 \end{tabular}
 \caption{Model accuracy and $F_1$ score}
 \label{acctable}
 \end{table}
+
+\section{Discussion}
+The convergence of training loss of a shallower CNN model is better than that of a deep CNN such as VGG. Benefits from shortcut connections, even though ResNet model is also deep, it could converge reasonable well. The decrease of training loss indicated that Small CNN model and ResNet were learning from the training set. The very deep VGG model was not able to learn. All models performed poorly on our dataset comparing to their original benchmark. To verify that the models were correctly implemented, they were trained on other dataset. Results are shown in Appendix \ref{appendixB}. Medical images are naturally difficult to acquire. By machine learning standard, which often requires thousands or even hundreds of thousands samples, our dataset is considered extremely small. In addition, the US and PAT scans are very noisy and have lots of artifacts. The low quality of images makes it more challenging to pick up details for learning. Examples are shown in Fig.\,\ref{stack} and Fig.\,\ref{pat_us_example}.
+

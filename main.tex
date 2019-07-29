@@ -44,6 +44,7 @@ onehalfpacing, % Single line spacing, alternatives: onehalfspacing or doublespac
 %----------------------------------------------------------------------------------------
 \usepackage[utf8]{inputenc} % Required for inputting international characters
 \usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{dirtree}
 
 \usepackage{lmodern} % could change font type by calling a different package
 \usepackage{lastpage} % count pages
@@ -88,27 +89,6 @@ onehalfpacing, % Single line spacing, alternatives: onehalfspacing or doublespac
 %----------------------------------------------------------------------------------------
 \usepackage{parskip} %this will put spaces between paragraphs
 \setlength{\parindent}{15pt} % this will create and indent on all but the first paragraph of each section. 
-% should maybe change to glossaries package
-\usepackage{acro}
-\DeclareAcronym{est}{
-	short = EST,
-	long  = expressed sequence tags
-}
-
-\DeclareAcronym{Xl}{
-	short = \textit{X.~laevis},
-	long  = \textit{Xenopus~laevis}
-}
-\DeclareAcronym{Xg}{
-	short = \textit{X.~gilli},
-	long  = \textit{Xenopus~gilli}
-}
-
-\usepackage{etoolbox}
-\preto\chapter{\acresetall} % resets acronyms for each chapter
-
-\usepackage{xspace} %helps spacing with custom commands. 
-\newcommand{\oddname}{{\sc SoME goOfY LonG ThiNg With an AwkWarD NAme}\xspace}
 
 
 \usepackage{pgfplotstable} % a much better way to handle tables
@@ -127,7 +107,7 @@ onehalfpacing, % Single line spacing, alternatives: onehalfspacing or doublespac
 %	THESIS INFORMATION
 %----------------------------------------------------------------------------------------
 
-\thesistitle{Breast Cancer Specimen Classification} % Your thesis title, print it elsewhere with \ttitle
+\thesistitle{Classification of Breast Cancer Images} % Your thesis title, print it elsewhere with \ttitle
 \supervisor{Dr. Nedialkov \textsc{Ned}} % Your supervisor's name, print it elsewhere with \supname
 \examiner{} % Your examiner's name, print it elsewhere with \examname
 \degree{Master of Engineering} % Your degree name, print it elsewhere with \degreename
@@ -159,8 +139,7 @@ onehalfpacing, % Single line spacing, alternatives: onehalfspacing or doublespac
 %\vspace*{\fill}
 \vspace{6cm}
 \begin{center}
-A short 60 character title % ideally, but it doesn't seem to matter
-\end{center}
+Classification of Breast Cancer Images Using Deep Convolutional Neural Networks\end{center}
 %\vspace*{\fill}
 \pagenumbering{gobble} % leave this here, McMaster doesn't want this page numbered
 %\end{halftitle}
@@ -223,7 +202,7 @@ NUMBER OF PAGES: \pageref{lastoffront}, \pageref{LastPage}  % put in iv and numb
 \section*{\Huge Abstract} 
 \addchaptertocentry{Abstract}
 % Type your abstract here. 
-This project assesses the classification performance of three deep neural networks on the breast cancer specimen dataset provided by western university. The dataset contains 89 samples. Class B has ** samples and class C has ** samples. Only these two classes have relatively sufficient number of samples. Three neural networks are trained on the selected data, a small neural network derived from kiret’s paper, two state-of-art convolution neural networks VGG and resnet. Machine learning often requires tens of thousands of samples. Due to the limitation of the dataset, results of all three networks are not ideal. results****. The neural network model and training process are parameterized in ymal format for more intuitive parameter fine tuning, also retraining when more data is available.\clearpage
+This project assesses the classification performance of three deep neural networks on the breast cancer specimen dataset provided by \citeauthor{Kosik2019} \citep{Kosik2019}. Three neural networks are trained on selected samples from the dataset, a small neural network derived from \citeauthor{Dhindsa2018}'s study \citep{Dhindsa2018}, and two state-of-art deep convolution neural networks VGG \citep{vgg} and ResNet \citep{resnet}. Three neural network models are trained on Ultrasound (US) images and on Photoacoustic tomography (PAT) images. Their performance is compared by accuracy and $F_1$ score. The neural network model and training process are parameterized using YAML for intuitive parameter fine tuning, also retraining when additional training data is available.\clearpage
 %----------------------------------------------------------------------------------------
 %	ACKNOWLEDGEMENTS
 %----------------------------------------------------------------------------------------
@@ -258,17 +237,17 @@ The acknowledgments and the people to thank go here, don't forget to include you
 %	DECLARATION PAGE
 %----------------------------------------------------------------------------------------
 
-\begin{declaration}
-\addchaptertocentry{\authorshipname}
+% \begin{declaration}
+% \addchaptertocentry{\authorshipname}
 
-\noindent I, \authorname, declare that this thesis titled, \enquote{\ttitle} and the work presented in it are my own. I confirm that:
+% \noindent I, \authorname, declare that this thesis titled, \enquote{\ttitle} and the work presented in it are my own. I confirm that:
 
-\begin{itemize} 
-\item List each chapter
-\item and what you have done for it
-\end{itemize}
+% \begin{itemize} 
+% \item List each chapter
+% \item and what you have done for it
+% \end{itemize}
  
-\end{declaration}
+% \end{declaration}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -335,5 +314,19 @@ The acknowledgments and the people to thank go here, don't forget to include you
 \printbibliography[heading=bibintoc]
 
 %----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - APPENDICES
+%----------------------------------------------------------------------------------------
+
+\appendix % Cue to tell LaTeX that the following "chapters" are Appendices
+\renewcommand{\thetable}{A\arabic{chapter}.\arabic{table}} % adds an A to table names in appendix (Table A1.1, A1.2...)
+\renewcommand{\thefigure}{A\arabic{chapter}.\arabic{figure}} % same for figures
+\renewcommand{\thesection}{A\arabic{section}}
+
+% Include the appendices of the thesis as separate files from the Appendices folder
+\input{Appendix/Appendix.tex}
+
+
 
 \end{document}
