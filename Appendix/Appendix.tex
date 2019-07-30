@@ -3,7 +3,7 @@
 
 Required packages: keras, sklearn, pandas, numpy, PIL, pyyaml.
 
-split\_PAT\_stack.py and split\_US\_stack: The initial PAT and US images that we received were in a 3-dimensional image stack (.tif) format. This script is to quickly process these stacks and generate a corresponding set of 2D images.
+split\_stack.py: The initial PAT and US images that we received were in a 3-dimensional image stack (.tif) format. This script is to quickly process these stacks and generate a corresponding set of 2D images.
 The original dataset has the following directory structure:
 \dirtree{%
 .1 dataset.
@@ -47,8 +47,41 @@ data.py partitions the data into k-fold, prepares the directory as needed by flo
 .3 B .
 .3 C .
 }
-A configuration YAML file should be provided to train.py. Path to dataset, model used, and many training parameters are specified in the file.
+
+trin.py: Main function, includes reading training set, k-fold partitioning, training model, and reporting training and validation loss and accuracy. A configuration YAML file should be provided to train.py. Path to dataset, model used, and many training parameters are specified in the file.
 
 
-\chapter{other dataset}
+\chapter{Other Dataset}
 \label{appendixB}
+Due to the poor performance in experiments with our dataset, to verify that the neural network models are correctly implemented, the models are trained on other classification datasets from the internet \citep{Janowczyk2016} and \citep{catdog}.
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[b]{.2\linewidth}
+\includegraphics[width=\linewidth]{Figs/8864_idx5_x1251_y1651_class0.png}
+\end{subfigure}
+\begin{subfigure}[b]{.2\linewidth}
+\includegraphics[width=\linewidth]{Figs/8864_idx5_x1201_y1801_class0.png}
+\end{subfigure}
+\begin{subfigure}[b]{.2\linewidth}
+\includegraphics[width=\linewidth]{Figs/8864_idx5_x1201_y1701_class0.png}
+\end{subfigure}
+\begin{subfigure}[b]{.2\linewidth}
+\includegraphics[width=\linewidth]{Figs/8864_idx5_x1151_y1701_class0.png}
+\end{subfigure}
+
+\begin{subfigure}[b]{.2\linewidth}
+\includegraphics[width=\linewidth]{Figs/8864_idx5_x1851_y2251_class1.png}
+\end{subfigure}
+\begin{subfigure}[b]{.2\linewidth}
+\includegraphics[width=\linewidth]{Figs/8864_idx5_x1801_y2701_class1.png}
+\end{subfigure}
+\begin{subfigure}[b]{.2\linewidth}
+\includegraphics[width=\linewidth]{Figs/8864_idx5_x1801_y2651_class1.png}
+\end{subfigure}
+\begin{subfigure}[b]{.2\linewidth}
+\includegraphics[width=\linewidth]{Figs/8864_idx5_x1801_y2551_class1.png}
+\end{subfigure}
+\caption{IDC Breast Cancer Dataset: class0 \& class1}
+\label{IDC}
+\end{figure}
