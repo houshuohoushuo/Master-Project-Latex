@@ -47,7 +47,7 @@ The simplest Neural Network is a feedforward fully connected network. It is form
     \label{two_layer}
 \end{figure}
 
-A feedforward neural network can consist of three types of nodes:
+\noindent A feedforward neural network can consist of three types of nodes:
 
 \begin{enumerate}
 \item Input Nodes – The Input nodes take in a input $\mathbf{x}$ in the form of vector $(x_0,...,x_i)$. These nodes are together referred to as the “Input Layer”. No computation is performed in any of the Input nodes – they just pass on the information to the hidden nodes.
@@ -97,23 +97,19 @@ Given a set of features $\mathbf{x} = (x_1,...,x_n)$ and a target $\mathbf{t} = 
 There are two phases in the learning process, forward and backward. Forward phase is making output prediction from the given input.
 Backward phase is backward propagation of errors. A Neural Network learns through Back-Propagation by calculating the error from the output $\mathbf{o}$ to the target value $\mathbf{t}$, then improving the weights in all nodes. The learning is "supervised", meaning the target value $\mathbf{t}$ must be given to the network respect to each input  $\mathbf{x}$ in training. The objective of learning is to get $\mathbf{w}^* = \argminE_\mathbf{w} \sum_{n=1}^N loss(\mathbf{o}^{(n)},\mathbf{t}^{(n)})$, where $\mathbf{o} = f(\mathbf{x};\mathbf{w})$ is the output of the network. With hidden units, this objective is not convex. We can minimize the function by gradient descent (no guarantees gradient methods would not end up in a local minima/saddle point, but experiments evidence that most local minimas are almost as good as the global minima).
 
-A loss function $L$ measures the error between network output $\mathbf{o}$ and the true value $\mathbf{t}$. Let $E$ denote such error. For clarity, we can expand the output layer as shown in Fig.\,\ref{expand2}. $o_k$ is the output of unit $k$, $g$ is the output layer activation function, $z_{k}$ is the net input to output unit $k$, $w_{ki}$ is the weight from input $i$ to $k$. 
-
+A loss function $L$ measures the error between network output $\mathbf{o}$ and the target value $\mathbf{t}$. Let $E$ denote such error. For clarity, we can expand the output layer as shown in Fig.\,\ref{expand2}. $o_k$ is the output of unit $k$, $g$ is the output layer activation function, $z_{k}$ is the net input to output unit $k$, $w_{ki}$ is the weight from input $i$ to $k$. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{Figs/singlelayer2.png}
     \caption{Single Layer Network}
     \label{expand2}
 \end{figure}
-
 Error gradients for single layer network is 
 $$\frac{\partial E}{\partial w_{ki}} = 
     \frac{\partial E}{\partial o_{k}} 
     \frac{\partial o_{k}}{\partial z_{k}} 
     \frac{\partial z_{k}}{\partial w_{ki}} $$
-
 Error at output $o_k$ is $\delta_k^o =  \frac{\partial E}{\partial o_{k}} $.
-
 $$\frac{\partial E}{\partial w_{ki}} = 
     \frac{\partial E}{\partial o_{k}} 
     \frac{\partial o_{k}}{\partial z_{k}} 
@@ -121,33 +117,21 @@ $$\frac{\partial E}{\partial w_{ki}} =
     =  
     \delta_k^o 
     \frac{\partial o_{k}}{\partial z_{k}} 
-    \frac{\partial z_{k}}{\partial w_{ki}}  
-    $$
-
-Since $o_k = g(z_k)$, $$\delta_k^z = \delta_k^o \cdot \frac{\partial o_{k}}{\partial z_{k}}$$
-Then we have 
-$$\frac{\partial E}{\partial w_{ki}} = \delta_k^z \frac{\partial z_{k}}{\partial w_{ki}} =  \delta_k^z \cdot x_i$$ 
-
-
-Assuming the error function is mean-squared error (MSE), on a single training example $n$, we have:
-$$\frac{\partial E}{\partial o_k^{(n)}} = o_k^{(n)} - t_k^{(n)} := \delta_k^o$$
-
-Using logistic activation functions:
-$$ o_k^{(n)} = g(z_k^{(n)}) = (1 + \exp(-z_k^{(n)}))^{-1}$$
+    \frac{\partial z_{k}}{\partial w_{ki}}  $$
+Since $o_k = g(z_k)$, $$\delta_k^z = \delta_k^o \cdot \frac{\partial o_{k}}{\partial z_{k}}$$ then we have $$\frac{\partial E}{\partial w_{ki}} = \delta_k^z \frac{\partial z_{k}}{\partial w_{ki}} =  \delta_k^z \cdot x_i$$ 
+Assuming the loss function is mean-squared error (MSE), on a single training example $n$, we have:
+$$\frac{\partial E}{\partial o_k^{(n)}} = o_k^{(n)} - t_k^{(n)} := \delta_k^o$$Using logistic activation functions:$$ o_k^{(n)} = g(z_k^{(n)}) = (1 + \exp(-z_k^{(n)}))^{-1}$$
 $$\frac{\partial o_k^{(n)}}{\partial z_k^{(n)}} = o_k^{(n)}(1-o_k^{(n)})$$
 The error gradient is then:
 $$\frac{\partial E}{\partial w_{ki}} =  \sum_{n=1}^N \frac{\partial E}{\partial o_{k}^{(n)}}\frac{\partial o_{k}^{(n)}}{\partial z_{k}^{(n)}} \frac{\partial z_{k}^{(n)}}{\partial w_{ki}} = \sum_{n=1}^N (o_k^{(n)} - t_k^{(n)})o_k^{(n)} (1-o_k^{(n)}) x_i^{(n)}$$
-
 The gradient descent update rule is given by:
 $$w_{ki} := w_{ki} - \eta \frac{\partial E}{\partial w_{ki}} = w_{ki} - \eta  \sum_{n=1}^N (o_k^{(n)} - t_k^{(n)})o_k^{(n)} (1-o_k^{(n)}) x_i^{(n)}$$
-
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{Figs/multilayerbackprop.png}
     \caption{Multi Layer Network}
     \label{multi}
 \end{figure}
-
 where $\eta$ is a pre-defined learning rate. The output weight gradients for a multi-layer network are the same as for a single layer network (Fig.\,\ref{multi}):
 $$\frac{\partial E}{\partial w_{kj}} =  \sum_{n=1}^N \frac{\partial E}{\partial o_{k}^{(n)}}\frac{\partial o_{k}^{(n)}}{\partial z_{k}^{(n)}} \frac{\partial z_{k}^{(n)}}{\partial w_{kj}} = \sum_{n=1}^N \delta_k^{z,(n)} h_j^{(n)}$$
 where $\delta_k$ is the error w.r.t. the net input for unit $k$. Hidden weight gradients are then computed via back propagation:
@@ -225,7 +209,7 @@ The performance of deep learning neural networks often improves with the amount 
     \label{dataaug}
 \end{figure}
 
-Image data augmentation (Fig.\,\ref{dataaug}) is perhaps the most well-known type of data augmentation and involves creating transformed versions of images in the training dataset that belong to the same class as the original image. Transforms include a range of operations from the field of image manipulation, such as shifts, flips, zooms, crops.
+Image data augmentation (Fig.\,\ref{dataaug}) is to create transformed versions of images in the training dataset that belong to the same class as the original image. Transforms include a range of operations from the field of image manipulation, such as shifts, flips, zooms, crops.
 
 Convolutional neural network can learn features that are invariant to their location in the image. Image augmentation can further aid in this transform invariant approach to learning and can aid the model in learning features that are also invariant to transforms such as left-to-right to top-to-bottom ordering. Image data augmentation is typically only applied to the training dataset, and not to the validation or test dataset. 
 

@@ -60,17 +60,16 @@ We can see that the top few and bottom few scans have very low quality and lack 
 \section{Data Partition and Augmentation}
 The specimen samples are divided into training set and testing set by 0.8 ratio, 5-fold cross validation is used. Centre 6 images are extracted from a stack. No image from the same stack is separated into training and testing set. This is to ensure overfitting due to within-sample image similarities would not be possible. Because the number of samples in class B and C is not balanced, K-fold data partitioning is done by using Stratified k-fold. "StratifiedKFold is a variation of k-fold which returns stratified folds: each set contains approximately the same percentage of samples of each target class as the complete set". Each of the five folds is used as a test set once and only once. Accuracy and $F_1$ score is averaged across five folds.
 
-Machine learning requires large amounts of data. While our dataset is very small, data augmentation is used to artificially expand the number of samples. Augmentation Scaling Factor is set to 5, meaning five images are created from one by Rotation, Cropping, Horizontal and Vertical Flip. Then, the images are resized to (200,200).
+Machine learning requires large amounts of data. While our dataset is very small, data augmentation is used to artificially expand the number of samples (Fig.\,\ref{dataaug}) . Augmentation Scaling Factor is set to 5, meaning five images are created from one by Rotation, Cropping, Horizontal and Vertical Flip. Then, the images are resized to (200,200).
 
 \section{Training}
 Adam \citep{adam} optimizer is used in all models to minimize the categorical cross-entropy across two classes. Adam is a replacement optimization algorithm for classic stochastic gradient descent. Adam can adaptively adjust the learning parameters based on the average first moment, as well as the average of the second moments of the gradients. The parameters of Adam optimizer is set to default. Training epoch is 50, all samples are passed to the network 50 times, with a batch size of 64. Best set of weights is saved. All parameters can be modified in YAML format for easier parameter fine tuning.
 
 
 \section{Training Curves}
-The learning process of a neural network can be investigated through training curves \citep{Anzanello2011}.
-From Fig.\,\ref{fig:loss} and Fig.\,\ref{fig:acc}, we can see that all training loss is decreasing and accuracy is increasing. However, the validation loss and accuracy is very noise, and do not have much improvement. Note that there is a large gap between training and validation curves. This indicates that the training dataset is unrepresentative, which means the training dataset does not provide sufficient information to learn the problem. We have too few examples in the dataset. From the noisy validation curves, we can conclude that the validation dataset is also unrepresentative. A  unrepresentative validation set means that it does not provide sufficient information to evaluate the ability of the model to generalize. This could occur when the validation dataset has too few examples.
+The learning process of a neural network can be investigated through training curves \citep{Anzanello2011}. Training and validation loss and accuracy are reported and ploted in Fig.\,\ref{fig:loss} and Fig.\,\ref{fig:acc}.
 
-\begin{figure}
+\begin{figure}[h]
 \centering
 \begin{subfigure}[b]{.3\linewidth}
 \includegraphics[width=\linewidth]{Figs/small_us_loss.jpg}
@@ -101,7 +100,7 @@ From Fig.\,\ref{fig:loss} and Fig.\,\ref{fig:acc}, we can see that all training 
 \label{fig:loss}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[h]
 \centering
 \begin{subfigure}[b]{.3\linewidth}
 \includegraphics[width=\linewidth]{Figs/small_us_acc.jpg}
@@ -132,16 +131,20 @@ From Fig.\,\ref{fig:loss} and Fig.\,\ref{fig:acc}, we can see that all training 
 \label{fig:acc}
 \end{figure}
 
+The validation loss and accuracy are very noise, and do not have much improvement. Note that there is a large gap between training and validation curves. This indicates that the training dataset is unrepresentative, which means the training dataset does not provide sufficient information to learn the problem. We have too few examples in the dataset. From the noisy validation curves, we can conclude that the validation dataset is also unrepresentative. A  unrepresentative validation set means that it does not provide sufficient information to evaluate the ability of the model to generalize. This could occur when the validation dataset has too few examples.
 
 \section{Accuracy and $F_1$ score}
 The $F_1$ score (also F-score) is a measure of a test's accuracy \citep{powers2011evaluation}. It considers both the precision $p$ and the recall $r$ of the test to compute the score: $p$ is the number of correct positive results divided by the number of all positive results returned by the classifier, and $r$ is the number of correct positive results divided by the number of all relevant samples (all samples that should have been identified as positive). The $F_1$ score is the harmonic average of the precision and recall, where an $F_1$ score reaches its best value at 1 (perfect precision and recall) and worst at 0.
 Formally: $$F_1 score = 2 \cdot \frac{precision \cdot recall}{precision + recall}$$
-Presition $$p = \frac{TP}{TP + FP}$$
-Recall $$r = \frac{TP}{TP + FN}$$
-True Positives (TP): Samples which we predicted belong to a class, and they are indeed in the class.\\*
-True Negatives (TN): Samples which we predicted not belong to a class, and they are indeed not in that class.\\*
-False Positives (FP): We predicted in a class, but they are actually not.\\*
-False Negatives (FN): We predicted not in a class, but they are actually in.\\*
+Presition: $$p = \frac{TP}{TP + FP}$$
+Recall: $$r = \frac{TP}{TP + FN}$$
+\noindent True Positives (TP): Samples which we predicted belong to a class, and they are indeed in the class.
+
+\noindent True Negatives (TN): Samples which we predicted not belong to a class, and they are indeed not in that class.
+
+\noindent False Positives (FP): We predicted in a class, but they are actually not.
+
+\noindent False Negatives (FN): We predicted not in a class, but they are actually in.
 
 \begin{table}[h]
 \centering

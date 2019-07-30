@@ -1,12 +1,12 @@
-\chapter{Instruction for running the model} % Main appendix title
+\chapter{Instructions} % Main appendix title
 \label{appendixA}
 
-stack\_PAT stack\_US: Extract centre images from tif stack. 
+Required packages: keras, sklearn, pandas, numpy, PIL, pyyaml.
 
-Input directory structure:
+split\_PAT\_stack.py and split\_US\_stack: The initial PAT and US images that we received were in a 3-dimensional image stack (.tif) format. This script is to quickly process these stacks and generate a corresponding set of 2D images.
+The original dataset has the following directory structure:
 \dirtree{%
 .1 dataset.
-.2 AF013.
 .2 AF014.
 .3 PAT 930.
 .4 014 PAT 930 initial stack.tif .
@@ -16,11 +16,9 @@ Input directory structure:
 .2 ..
 .2 ..
 }
-
-Output directory structure:
+Output directory structure produced by the script:
 \dirtree{%
 .1 PAT\_extracted.
-.2 AF013.
 .2 AF014.
 .3 014\_15.jpg .
 .3 014\_16.jpg .
@@ -33,16 +31,24 @@ Output directory structure:
 .2 ..
 }
 
-data.py will partition the data according to k-fold, prepare the directory for training. flow\_from\_directory() takes in directory structure as:
+data.py partitions the data into k-fold, prepares the directory as needed by flow\_from\_directory() for training (this step will be done automatically in training). Directory structure is:
 \dirtree{%
 .1 data .
 .2 train.
 .3 B .
+.4 014\_15.jpg .
+.4 014\_16.jpg .
+.4 ..
 .3 C .
+.4 027\_14.jpg .
+.4 027\_15.jpg .
+.4 ..
 .2 valid.
 .3 B .
 .3 C .
 }
+A configuration YAML file should be provided to train.py. Path to dataset, model used, and many training parameters are specified in the file.
+
 
 \chapter{other dataset}
 \label{appendixB}
