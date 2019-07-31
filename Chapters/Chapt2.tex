@@ -82,7 +82,7 @@ Fig.\,\ref{one_layer} shows a multilayer perceptron with a single hidden layer. 
 \end{figure}
 
 
-\textbf{Input Layer}: The Input layer has three nodes. The Bias is emitted for simplicity but has a value of 1. The nodes take in the input $\mathbf{x} = (x_1,x_2,x_3)$. These values form the Input Layer and are passed to the Hidden layer with no computation.
+\textbf{Input Layer}: The Input layer has three nodes. The Bias is omitted for simplicity but has a value of 1. The nodes take in the input $\mathbf{x} = (x_1,x_2,x_3)$. These values form the Input Layer and are passed to the Hidden layer with no computation.
 
 \textbf{Hidden Layer}: The Hidden layer has four nodes. To distinguish from the output layer, here let $v$ denote a weight and $h$ denote the output of a neuron in hidden layer. $D$ denotes the number of inputs. The output of the $j$th neuron is $h_j(\mathbf{x}) = f(v_{j0}+\sum_{i=1}^{D=3} x_iv_{ji})$. $f$ is an activation function.
 

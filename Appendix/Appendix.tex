@@ -53,7 +53,7 @@ trin.py: Main function, includes reading training set, k-fold partitioning, trai
 
 \chapter{Other Dataset}
 \label{appendixB}
-Due to the poor performance in experiments with our dataset, to verify that the neural network models are correctly implemented, the models are trained on other classification datasets from the internet \citep{Janowczyk2016} and \citep{catdog}.
+Due to the poor performance in experiments with our dataset, to verify that the neural network models are correctly implemented, the models are trained on other classification datasets \citep{Janowczyk2016} and \citep{catdog}.
 
 \begin{figure}[h]
 \centering
@@ -85,3 +85,107 @@ Due to the poor performance in experiments with our dataset, to verify that the 
 \caption{IDC Breast Cancer Dataset: class0 \& class1}
 \label{IDC}
 \end{figure}
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/small_us_loss.jpg}
+\caption{Small loss US}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/resnet_us_loss.jpg}
+\caption{ResNet loss US}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/vgg_us_loss.jpg}
+\caption{VGG loss US}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/vgg_us_loss.jpg}
+\caption{VGG-IN loss US}
+\end{subfigure}
+
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/small_pat_loss.jpg}
+\caption{Small loss PAT}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/resnet_pat_loss.jpg}
+\caption{ResNet loss PAT}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/vgg_pat_loss.jpg}
+\caption{VGG loss PAT}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/vgg_pat_loss.jpg}
+\caption{VGG-IN loss PAT}
+\end{subfigure}
+\caption{Model loss}
+\label{fig:loss2}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/small_us_acc.jpg}
+\caption{Small accuracy US}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/resnet_us_acc.jpg}
+\caption{ResNet accuracy US}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/vgg_us_acc.jpg}
+\caption{VGG accuracy US}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/vgg_us_acc.jpg}
+\caption{VGG-IN accuracy US}
+\end{subfigure}
+
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/small_pat_acc.jpg}
+\caption{Small accuracy PAT}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/resnet_pat_acc.jpg}
+\caption{ResNet accuracy PAT}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/vgg_pat_acc.jpg}
+\caption{VGG accuracy PAT}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/vgg_pat_acc.jpg}
+\caption{VGG-IN accuracy PAT}
+\end{subfigure}
+\caption{Model accracy}
+\label{fig:acc2}
+\end{figure}
+
+From the results, we can see that neural network models benefit from large amounts of data. The loss is decreasing and accuracy is increasing for both IDC Breast Cancer dataset and cat\&dog dataset. Accuracy and $F_1$ score is reported in Table \ref{acctable2}.
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|p{3cm}|  }
+ \hline
+ Model       & Accuracy & Class 0 $F_1$ score & Class 1 $F_1$ score\\
+ \hline
+ \hline
+ Small Breast   & 0.90  & 0.94 &  0.78\\
+ ResNet Breast  & 0.91  & 0.94 &  0.80\\
+ VGG Breast      & 0.77  & 0.87 &  0\\
+ VGG-IN breast & 0 & 0 & 0 \\
+ \hline
+ Small CatDog   & 0.90  & 0.94 &  0.78\\
+ ResNet CatDog  & 0.91  & 0.94 &  0.80\\
+ VGG CatDog      & 0.77  & 0.87 &  0\\
+ VGG-IN CatDog & 0 & 0 & 0 \\
+  \hline
+\end{tabular}
+\caption{Model accuracy and $F_1$ score}
+\label{acctable2}
+\end{table}

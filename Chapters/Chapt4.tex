@@ -60,41 +60,49 @@ We can see that the top few and bottom few scans have very low quality and lack 
 \section{Data Partition and Augmentation}
 The specimen samples are divided into training set and testing set by 0.8 ratio, 5-fold cross validation is used. Centre 6 images are extracted from a stack. No image from the same stack is separated into training and testing set. This is to ensure overfitting due to within-sample image similarities would not be possible. Because the number of samples in class B and C is not balanced, K-fold data partitioning is done by using Stratified k-fold. "StratifiedKFold is a variation of k-fold which returns stratified folds: each set contains approximately the same percentage of samples of each target class as the complete set". Each of the five folds is used as a test set once and only once. Accuracy and $F_1$ score is averaged across five folds.
 
-Machine learning requires large amounts of data. While our dataset is very small, data augmentation is used to artificially expand the number of samples (Fig.\,\ref{dataaug}) . Augmentation Scaling Factor is set to 5, meaning five images are created from one by Rotation, Cropping, Horizontal and Vertical Flip. Then, the images are resized to (200,200).
+Machine learning requires large amounts of data. While our dataset is very small, data augmentation is used to artificially expand the number of samples (Fig.\,\ref{dataaug}) . Augmentation Scaling Factor is set to 5, meaning five images are created from one by Rotation, Cropping, Horizontal and Vertical Flip. Then, the images are resized to (192, 192).
 
 \section{Training}
-Adam \citep{adam} optimizer is used in all models to minimize the categorical cross-entropy across two classes. Adam is a replacement optimization algorithm for classic stochastic gradient descent. Adam can adaptively adjust the learning parameters based on the average first moment, as well as the average of the second moments of the gradients. The parameters of Adam optimizer is set to default. Training epoch is 50, all samples are passed to the network 50 times, with a batch size of 64. Best set of weights is saved. All parameters can be modified in YAML format for easier parameter fine tuning.
+Adam \citep{adam} optimizer is used in all models to minimize the categorical cross-entropy across two classes. Adam is a replacement optimization algorithm for classic stochastic gradient descent. Adam can adaptively adjust the learning parameters based on the average first moment, as well as the average of the second moments of the gradients. The parameters of Adam optimizer is set to default. Training epoch is 50, all samples are passed to the network 50 times, with a batch size of 32. Best set of weights is saved. All parameters can be modified in YAML format for easier parameter fine tuning.
 
 
 \section{Training Curves}
-The learning process of a neural network can be investigated through training curves \citep{Anzanello2011}. Training and validation loss and accuracy are reported and ploted in Fig.\,\ref{fig:loss} and Fig.\,\ref{fig:acc}.
+The learning process of a neural network can be investigated through training curves \citep{Anzanello2011}. Training and validation loss and accuracy are reported and ploted in Fig.\,\ref{fig:loss} and Fig.\,\ref{fig:acc}. VGG-IN is VGG model with ImageNet pre-trained weights loaded in the convolutional layers, Fully connected layer and classification layer are retrained.
 
 \begin{figure}[h]
 \centering
-\begin{subfigure}[b]{.3\linewidth}
+\begin{subfigure}[b]{.24\linewidth}
 \includegraphics[width=\linewidth]{Figs/small_us_loss.jpg}
 \caption{Small loss US}
 \end{subfigure}
-\begin{subfigure}[b]{.3\linewidth}
+\begin{subfigure}[b]{.24\linewidth}
 \includegraphics[width=\linewidth]{Figs/resnet_us_loss.jpg}
 \caption{ResNet loss US}
 \end{subfigure}
-\begin{subfigure}[b]{.3\linewidth}
+\begin{subfigure}[b]{.24\linewidth}
 \includegraphics[width=\linewidth]{Figs/vgg_us_loss.jpg}
 \caption{VGG loss US}
 \end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/vgg_in_us_loss.jpg}
+\caption{VGG-IN loss US}
+\end{subfigure}
 
-\begin{subfigure}[b]{.3\linewidth}
+\begin{subfigure}[b]{.24\linewidth}
 \includegraphics[width=\linewidth]{Figs/small_pat_loss.jpg}
 \caption{Small loss PAT}
 \end{subfigure}
-\begin{subfigure}[b]{.3\linewidth}
+\begin{subfigure}[b]{.24\linewidth}
 \includegraphics[width=\linewidth]{Figs/resnet_pat_loss.jpg}
 \caption{ResNet loss PAT}
 \end{subfigure}
-\begin{subfigure}[b]{.3\linewidth}
+\begin{subfigure}[b]{.24\linewidth}
 \includegraphics[width=\linewidth]{Figs/vgg_pat_loss.jpg}
 \caption{VGG loss PAT}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/vgg_in_pat_loss.jpg}
+\caption{VGG-IN loss PAT}
 \end{subfigure}
 \caption{Model loss}
 \label{fig:loss}
@@ -102,32 +110,40 @@ The learning process of a neural network can be investigated through training cu
 
 \begin{figure}[h]
 \centering
-\begin{subfigure}[b]{.3\linewidth}
+\begin{subfigure}[b]{.24\linewidth}
 \includegraphics[width=\linewidth]{Figs/small_us_acc.jpg}
-\caption{Small US accuracy}
+\caption{Small acc. US}
 \end{subfigure}
-\begin{subfigure}[b]{.3\linewidth}
+\begin{subfigure}[b]{.24\linewidth}
 \includegraphics[width=\linewidth]{Figs/resnet_us_acc.jpg}
-\caption{ResNet US accuracy}
+\caption{ResNet acc. US}
 \end{subfigure}
-\begin{subfigure}[b]{.3\linewidth}
+\begin{subfigure}[b]{.24\linewidth}
 \includegraphics[width=\linewidth]{Figs/vgg_us_acc.jpg}
-\caption{VGG US accuracy}
+\caption{VGG acc. US}
+\end{subfigure}
+\begin{subfigure}[b]{.24\linewidth}
+\includegraphics[width=\linewidth]{Figs/vgg_in_us_acc.jpg}
+\caption{VGG-IN acc. US}
 \end{subfigure}
 
-\begin{subfigure}[b]{.3\linewidth}
+\begin{subfigure}[b]{.24\linewidth}
 \includegraphics[width=\linewidth]{Figs/small_pat_acc.jpg}
-\caption{Small PAT accuracy}
+\caption{Small acc. PAT}
 \end{subfigure}
-\begin{subfigure}[b]{.3\linewidth}
+\begin{subfigure}[b]{.24\linewidth}
 \includegraphics[width=\linewidth]{Figs/resnet_pat_acc.jpg}
-\caption{ResNet PAT accuracy}
+\caption{ResNet acc. PAT}
 \end{subfigure}
-\begin{subfigure}[b]{.3\linewidth}
+\begin{subfigure}[b]{.24\linewidth}
 \includegraphics[width=\linewidth]{Figs/vgg_pat_acc.jpg}
-\caption{VGG PAT accuracy}
+\caption{VGG acc. PAT}
 \end{subfigure}
-\caption{Model accracy}
+\begin{subfigure}[b]{.25\linewidth}
+\includegraphics[width=\linewidth]{Figs/vgg_in_pat_acc.jpg}
+\caption{VGG-IN acc. PAT}
+\end{subfigure}
+\caption{Model accuracy}
 \label{fig:acc}
 \end{figure}
 
@@ -148,16 +164,20 @@ Recall: $$r = \frac{TP}{TP + FN}$$
 
 \begin{table}[h]
 \centering
-\begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|p{3cm}|  }
+\begin{tabular}{ |p{4cm}||p{3cm}|p{3cm}|p{3cm}|  }
  \hline
  Model       & Accuracy & Class B $F_1$ score & Class C $F_1$ score\\
+ \hline
  \hline
  Small  US   & 0.66  & 0.77 &  0.23\\
  ResNet US   & 0.75  & 0.82 &  0.55\\
  VGG US      & 0.61  & 0.76 &  0\\
+ VGG-ImageNet US & 0.65 & 0.77 & 0.22 \\
+\hline
  Small PAT   & 0.71  & 0.79 &  0.50\\
  ResNet PAT  & 0.76  & 0.83 &  0.57\\
  VGG PAT     & 0.61  & 0.76 &  0\\
+ VGG-ImageNet PAT & 0.78 & 0.84 & 0.54 \\
  \hline
 \end{tabular}
 \caption{Model accuracy and $F_1$ score}
@@ -165,5 +185,6 @@ Recall: $$r = \frac{TP}{TP + FN}$$
 \end{table}
 
 \section{Discussion}
-The convergence of training loss of a shallower CNN model is better than that of a deep CNN such as VGG. Benefits from shortcut connections, even though ResNet model is also deep, it could converge reasonable well. The decrease of training loss indicated that Small CNN model and ResNet were learning from the training set. The very deep VGG model was not able to learn. All models performed poorly on our dataset comparing to their original benchmark. To verify that the models were correctly implemented, they were trained on other dataset. Results are shown in Appendix \ref{appendixB}. Medical images are naturally difficult to acquire. By machine learning standard, which often requires thousands or even hundreds of thousands samples, our dataset is considered extremely small. In addition, the US and PAT scans are very noisy and have lots of artifacts. The low quality of images makes it more challenging to pick up details for learning. Examples are shown in Fig.\,\ref{stack} and Fig.\,\ref{pat_us_example}.
+Benefits from shortcut connections, even though ResNet model is deep, it could converge reasonable well. The decrease of training loss indicated that ResNet was training from the training set. On the other hand, the convergence of training loss of a deep CNN model is very poor. VGG model was too deep to train. Trying to address this problem, in VGG-IN model, ImageNet pre-trained weights were loaded. However, the training result was still not satisfactory. All models performed poorly on our dataset comparing to their original benchmark. To verify that the models were correctly implemented, they were trained on other datasets. Results are shown in Appendix \ref{appendixB}. 
 
+Medical images are naturally difficult to acquire. By machine learning standard, which often requires thousands or even hundreds of thousands samples, our dataset is considered extremely small. In addition, the US and PAT scans are very noisy and have lots of artifacts. The low quality of images makes it more challenging to pick up details for learning. Examples are shown in Fig.\,\ref{stack} and Fig.\,\ref{pat_us_example}. With additional data come to hand, we hope to see an improvement on the models' performance.
