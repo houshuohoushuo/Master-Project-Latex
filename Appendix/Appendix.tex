@@ -1,9 +1,10 @@
-\chapter{Instruction For Running the Model} % Main appendix title
+\chapter{Program Manual} % Main appendix title
 \label{appendixA}
 
+This program is implemented in Python 3.6.
 Required packages: keras, sklearn, pandas, numpy, PIL, pyyaml.
 
-split\_stack.py: The initial PAT and US images that we received were in a 3-dimensional image stack (.tif) format. This script is to quickly process these stacks and generate a corresponding set of 2D images.
+\textbf{split\_stack.py}: The original PAT and US images are in a 3-dimensional image stack (.tif) format. This script is to quickly process these stacks and generate a corresponding set of 2D images.
 The original dataset has the following directory structure:
 
 \dirtree{%
@@ -32,7 +33,7 @@ Output directory structure produced by the script:
 .2 ..
 }
 
-data.py partitions the data into k-fold, prepares the directory as needed by flow\_from\_directory() for training (this step will be done automatically in training). Directory structure is:
+\textbf{data.py}: split\_data\_folder partitions the data into a training set and a validation set according to k-fold specification. This directory structure is specifically required by flow\_from\_directory() for training (this step will be done automatically in training). Directory structure is:
 \dirtree{%
 .1 data .
 .2 train.
@@ -46,15 +47,21 @@ data.py partitions the data into k-fold, prepares the directory as needed by flo
 .4 ..
 .2 valid.
 .3 B .
+.4 ..
 .3 C .
+.4 ..
 }
 
-trin.py: Main function, includes reading training set, k-fold partitioning, training model, and reporting training and validation loss and accuracy. A configuration YAML file should be provided to train.py. Path to dataset, model used, and many training parameters are specified in the file.
+\textbf{train.py}: Main function, includes reading training set, k-fold partitioning, training model, and reporting training and validation loss and accuracy. A configuration YAML file (train.yaml) should be provided to train.py. Path to dataset, model used, and many training parameters are specified in this file.
+
+The training parameters can be modified in \textbf{train.yaml}.
 
 To run the model, first:
 
-python split\_stack.py train
+\textbf{python split\_stack.py train}
 
 Second:
 
-python train.py train
+\textbf{python train.py train}
+
+Tuning training parameters could be tedious. \textbf{generate\_models.py} is to automatically generate and run models with different training parameters specified in \textbf{models.yaml}. This program generates models with all combinations of parameters, including model name, number of epoch, batch size, etc., and run these models locally or batch them in SHARCNET.

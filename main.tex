@@ -50,6 +50,7 @@ doublespacing, % Single line spacing, alternatives: onehalfspacing or doublespac
 \usepackage{lastpage} % count pages
 \usepackage{siunitx} % for scientific units (micro-liter, etc)
 \setcounter{tocdepth}{2} % so that only section and sub sections appear in Table of Contents. Remove or set depth to 3 to include sub-sub-sections
+\usepackage{listings}
 
 %----------------------------------------------------------------------------------------
 % Handling Citations
@@ -83,7 +84,7 @@ doublespacing, % Single line spacing, alternatives: onehalfspacing or doublespac
 \usepackage{subcaption}
 % you'll have to play with the citation styles to resemble the standard in your field, or just leave them as is here. 
 % or, if there is a bst file you like, just get rid of all this biblatex stuff and go back to bibtex. 
-
+\hypersetup{citecolor=blue}
 %----------------------------------------------------------------------------------------
 % Collect all your header information from the chapters here, things like acronyms, custom commands, necessary packages, etc. 
 %----------------------------------------------------------------------------------------
@@ -107,8 +108,8 @@ doublespacing, % Single line spacing, alternatives: onehalfspacing or doublespac
 %	THESIS INFORMATION
 %----------------------------------------------------------------------------------------
 
-\thesistitle{Classification of Breast Cancer Images} % Your thesis title, print it elsewhere with \ttitle
-\supervisor{Dr. Nedialkov \textsc{Ned}} % Your supervisor's name, print it elsewhere with \supname
+\thesistitle{Classification of Breast Cancer Tumours Using Deep Learning} % Your thesis title, print it elsewhere with \ttitle
+\supervisor{Dr. N. Nedialkov} % Your supervisor's name, print it elsewhere with \supname
 \examiner{} % Your examiner's name, print it elsewhere with \examname
 \degree{Master of Engineering} % Your degree name, print it elsewhere with \degreename
 \author{Shuo \textsc{Hou}} % Your name, print it elsewhere with \authorname
@@ -139,7 +140,7 @@ doublespacing, % Single line spacing, alternatives: onehalfspacing or doublespac
 %\vspace*{\fill}
 \vspace{6cm}
 \begin{center}
-Classification of Breast Cancer Images Using Deep Neural Networks\end{center}
+Classification of Breast Cancer Tumours Using Deep Learning\end{center}
 %\vspace*{\fill}
 \pagenumbering{gobble} % leave this here, McMaster doesn't want this page numbered
 %\end{halftitle}
@@ -202,7 +203,7 @@ NUMBER OF PAGES: \pageref{lastoffront}, \pageref{LastPage}  % put in iv and numb
 \section*{\Huge Abstract} 
 \addchaptertocentry{Abstract}
 % Type your abstract here. 
-This project assesses the classification performance of three deep neural networks on the breast cancer specimen dataset provided by \citeauthor{Kosik2019} \citep{Kosik2019}. Three neural networks are trained on selected samples from the dataset, a small neural network derived from \citeauthor{Dhindsa2018}'s study \citep{Dhindsa2018}, and two state-of-art deep convolution neural networks VGG \citep{vgg} and ResNet \citep{resnet}. Three neural network models are trained on Ultrasound (US) images and on Photoacoustic tomography (PAT) images. Their performance is compared by accuracy and $F_1$ score. The neural network model and training process are parameterized using YAML for intuitive parameter fine tuning, also retraining when additional training data is available.\clearpage
+This project assesses the classification performance of three deep neural networks on a breast cancer specimen dataset provided by \citeauthor{Kosik2019} \citep{Kosik2019}. Three neural networks are trained on selected samples from the dataset, a small neural network derived from \citeauthor{Dhindsa2018}'s study \citep{Dhindsa2018}, and two state-of-art deep convolution neural networks VGG \citep{vgg} and ResNet \citep{resnet}. These neural network models are trained on Ultrasound (US) images and on Photoacoustic tomography (PAT) images. Their performance is compared by accuracy and the $F_1$ score. The neural network model and training process are parameterized using a YAML file for intuitive parameter fine-tuning and retraining when additional training data is available.\clearpage
 %----------------------------------------------------------------------------------------
 %	ACKNOWLEDGEMENTS
 %----------------------------------------------------------------------------------------
@@ -210,7 +211,11 @@ This project assesses the classification performance of three deep neural networ
 \begin{acknowledgements}
 \addchaptertocentry{\acknowledgementname} % Add the acknowledgments to the table of contents
 
-The acknowledgments and the people to thank go here, don't forget to include your project adviser\ldots
+Throughout this project, I have received a great deal of support and assistance. I would first like to thank my supervisor, \supname, whose expertise was invaluable in the formulating of the research topic, methodology, and academic writing.
+
+I would like to acknowledge Dr. J. Carson and Dr. I. Kosik from Western University, London, Ontario for providing the dataset. Without the dataset, my research would not be possible.
+
+In addition, I would like to thank my parents Junshan Hou and Tieyan Zhu for their support. You are always there for me. Finally, to my lovely girlfriend Hongchuan Yang, who was of great support in deliberating over my problems and findings, as well as providing happy distraction to rest my mind outside of my research.
 
 \end{acknowledgements}
 
@@ -301,6 +306,7 @@ The acknowledgments and the people to thank go here, don't forget to include you
 \input{Chapters/Chapt2} 
 \input{Chapters/Chapt3}
 \input{Chapters/Chapt4}
+\input{Chapters/Chapt5}
 
 % I suggest only compiling one chapter at a time, and comment out the others. That way, the document will typeset faster. When your done with all the chapters, then uncomment them all. Don't worry about the numbering of chapters/figures/etc. LaTeX will take care of that. 
 
@@ -326,7 +332,7 @@ The acknowledgments and the people to thank go here, don't forget to include you
 
 % Include the appendices of the thesis as separate files from the Appendices folder
 \input{Appendix/Appendix.tex}
-\input{Appendix/Code.tex}
+% \input{Appendix/Code.tex}
 
 
 \end{document}

@@ -1,0 +1,39 @@
+DataPartition:
+  KFold:  True  # True if want to use K-fold
+  Fold:      5 # number of folds
+  LabelFile:       ../data/ori.xlsx
+  OriginalDatasetDir: ../data/original_images/clean_dataset
+  USImagesDir:       ../data/US_extracted
+  PATImagesDir:       ../data/PAT_extracted
+
+Model:
+  Name:             small
+
+Training:
+  Params:
+    BatchSize:       64
+    NumEpochs:       50
+    Shuffle:         True
+  Input:
+    PAT/US:          DL  # used for training
+    USDir:           ./data_US
+    PATDir:          ./data_PAT
+    DLDir:          ../data/data_breast
+
+  Output:
+    History:         train_history.out
+    WeightsFile:     best.weights.hdf5
+
+ImageData:
+  Rows:               64
+  Cols:               64
+
+Augmentation:
+  Methods:
+    Rotation:         90 # Degree range for random rotations
+    zoom_range:       0.2
+    width_shift_range: 0.2
+    height_shift_range: 0.2
+    HorizontalFlip:   True
+    VerticalFlip:     True
+  ScalingFactor:      5
