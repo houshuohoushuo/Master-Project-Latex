@@ -1,7 +1,7 @@
 % remember to set these at the start of each chapter
 \chapter{Experiments and Discussion} 
 \label{experiments}
-In this section, we show and discuss the performance of each CNN model, including Small CNN, VGG, VGG-IN, and ResNet. Training is performed on PAT and US dataset and two other datasets for verification. Section \ref{result_dataset} and \ref{result_aug} describe the dataset and data pre-processing. Section \ref{result_training} describes the training process, and Section \ref{result_curves} and \ref{result_acc} include the experiment results. We then have a discussion about the results in Section \ref{result_discussion}. Finally, the experimental results on other datasets are shown in Section \ref{result_other}.
+In this section, we show and discuss the performance of each CNN model, including Small CNN, VGG, VGG-IN, and ResNet. Training is performed on PAT and US datasets and two other datasets for verification. Section \ref{result_dataset} and \ref{result_aug} describe the dataset and data pre-processing. Section \ref{result_training} describes the training process, and Section \ref{result_curves} and \ref{result_acc} include the experimental results. We then have a discussion about the results in Section \ref{result_discussion}. Finally, the experimental results on other datasets are shown in Section \ref{result_other}.
 %%%%%%%%%%%%%%%%%%
 \section{Dataset}
 \label{result_dataset}
@@ -75,7 +75,7 @@ Machine learning generally requires large amounts of data. Since our dataset is 
 \section{Training}
 \label{result_training}
 
-The four CNN models, Small CNN, VGG, VGG-IN, and ResNet are implemented and trained using an open-source neural-network library Keras \citep{chollet2015keras} in Python \citep{van1995python}. Adam \citep{adam} optimizer is used in all models to minimize the loss function. Adam can adaptively adjust the learning parameters based on the average first moment, as well as the average of the second moments of the gradients. The parameters of Adam optimizer are set to their default. Number of epoch is 50, as all samples are passed to the network 50 times, with a batch size of 32. Checkpoints are used so that the best set of weights is saved. For a classification problem, the loss function is categorical cross-entropy loss \citep{Goodfellow-et-al-2016}, which is defined as $$-\sum^M_{c=1} y_{o,c}\log(p_{o,c})$$
+The four CNN models, Small CNN, VGG, VGG-IN, and ResNet are implemented and trained using the open-source neural-network library Keras \citep{chollet2015keras} in Python \citep{van1995python}. Adam \citep{adam} optimizer is used in all models to minimize the loss function. Adam can adaptively adjust the learning parameters based on the average first moment, as well as the average of the second moments of the gradients. The parameters of Adam optimizer are set to their default. Number of epoch is 50, as all samples are passed to the network 50 times, with a batch size of 32. Checkpoints are used so that the best set of weights is saved. For a classification problem, the loss function is categorical cross-entropy loss \citep{Goodfellow-et-al-2016}, which is defined as $$-\sum^M_{c=1} y_{o,c}\log(p_{o,c})$$
 $M$ is the number of classes, $y$ is the binary indicator (0 or 1) if class label $c$ is the correct classification for observation $o$, and $p$ is the predicted probability observation $o$ is of class $c$. 
 
 Training a neural network is a ccomputationally intensive task. To speed up the training process, the program is run on a supercomputer system SHARCNET \citep{sharcnet}.
@@ -116,7 +116,7 @@ and recall is: $$r = \frac{TP}{TP + FN}$$
  VGG-IN PAT & \textbf{0.78} & \textbf{0.84} & 0.54 \\
  \hline
 \end{tabular}
-\caption{Model accuracy and $F_1$ score}
+\caption{Model accuracy and $F_1$ score on the US and PAT datasets}
 \label{acctable}
 \end{table}
 
@@ -161,7 +161,7 @@ and recall is: $$r = \frac{TP}{TP + FN}$$
 \includegraphics[width=\linewidth]{Figs/vgg_in_pat_loss.jpg}
 \caption{VGG-IN PAT}
 \end{subfigure}
-\caption{Model loss}
+\caption{Model loss on the US and PAT datasets}
 \label{fig:loss}
 \end{figure}
 
@@ -202,7 +202,7 @@ and recall is: $$r = \frac{TP}{TP + FN}$$
 \includegraphics[width=\linewidth]{Figs/vgg_in_pat_acc.jpg}
 \caption{VGG-IN PAT}
 \end{subfigure}
-\caption{Model accuracy}
+\caption{Model accuracy on the US and PAT datasets}
 \label{fig:acc}
 \end{figure}
 
@@ -212,11 +212,11 @@ The learning process of a neural network can be investigated through training cu
 \section{Discussion}
 \label{result_discussion}
 
-For Small CNN model, even though the training loss is decreasing over epoch, the validation loss is increasing (Fig.\,\ref{fig:loss} (A) (B)). This model is not generalizing to fit unseen validation data. For ResNet model, the decrease of training and validation loss (Fig.\,\ref{fig:loss} (C) (D)) indicates that ResNet could improve from training (although very noisy). VGG model has almost the same depth as ResNet, 19 layers versus 18 layers. Yet, the convergence of training and validation loss is very poor. We do not see a decrease in training and validation loss (Fig.\,\ref{fig:loss} (E) (F)). VGG-IN model uses a set of pre-trained weights from ImageNet \citep{imagenet_cvpr09} in convolutional layers, only the fully-connected layers and classification layer are trained. VGG-IN model shows decreases in training and validation loss on US dataset (Fig.\,\ref{fig:loss}), but on PAT dataset (Fig.\,\ref{fig:loss} (H)) only training loss decreases.
+For the Small CNN model, even though the training loss is decreasing, the validation loss is increasing (Fig.\,\ref{fig:loss} (A) (B)). This model is not generalizing to fit unseen validation data. For ResNet model, the decrease of training and validation loss (Fig.\,\ref{fig:loss} (C) (D)) indicates that ResNet could improve from training (although very noisy). VGG model has almost the same depth as ResNet, 19 layers versus 18 layers. Yet, the convergence of training and validation loss is very poor. We do not see a decrease in training and validation loss (Fig.\,\ref{fig:loss} (E) (F)). VGG-IN model uses a set of pre-trained weights from ImageNet \citep{imagenet_cvpr09} in convolutional layers, only the fully-connected layers and classification layer are trained. VGG-IN model shows decreases in training and validation loss on US dataset (Fig.\,\ref{fig:loss}), but on PAT dataset (Fig.\,\ref{fig:loss} (H)) only training loss decreases.
 
-All models perform poorly in terms of accuracy on the US and PAT dataset. The validation accuracy of all models do not show a consistent improvement over epoch (Fig.\,\ref{fig:acc}). Note the large gap between training and validation curves. This indicates that the training dataset is unrepresentative, which means the training dataset does not provide sufficient information to learn the problem. We may have too few examples in the training dataset, or the training dataset may not be a good representation. From the noisy validation curves, we can conclude that the validation dataset is also unrepresentative. A unrepresentative validation set means that it does not provide sufficient information to evaluate the ability of the model to generalize. This could occur when the validation dataset has too few examples.
+All models perform poorly in terms of accuracy on the US and PAT datasets. The validation accuracy of all models do not show a consistent improvement over epoch (Fig.\,\ref{fig:acc}). Note the large gap between training and validation curves. This indicates that the training dataset is unrepresentative, which means the training dataset does not provide sufficient information to learn the problem. We may have too few examples in the training dataset, or the training dataset may not be a good representation. From the noisy validation curves, we can conclude that the validation dataset is also unrepresentative. A unrepresentative validation set means that it does not provide sufficient information to evaluate the ability of the model to generalize. This could occur when the validation dataset has too few examples.
 
-Medical images are naturally difficult to acquire. By machine learning standard, which often requires thousands or even millions of samples, our dataset is considered extremely small. In addition, the US and PAT scans are very noisy and have lots of artifacts. The low quality of images makes it more challenging for neural networks to pick up important features. With additional data come to hand, we hope to see an improvement on the models' performance.
+Medical images are naturally difficult to acquire. By machine learning standard, which often requires thousands or even millions of samples, our datasets is considered extremely small. In addition, the US and PAT scans are very noisy and have lots of artifacts. The low quality of images makes it more challenging for neural networks to pick up important features. With additional data come to hand, we hope to see an improvement on the models' performance.
 
 \section{Experiments with other datasets}
 \label{result_other}
@@ -248,7 +248,7 @@ Medical images are naturally difficult to acquire. By machine learning standard,
 \begin{subfigure}[b]{.2\linewidth}
 \includegraphics[width=\linewidth]{Figs/8864_idx5_x1801_y2551_class1.png}
 \end{subfigure}
-\caption{Examples from IDC Breast Cancer Dataset}
+\caption{Examples from the IDC Breast Cancer dataset}
 \label{IDC}
 \end{figure}
 
@@ -279,11 +279,11 @@ Medical images are naturally difficult to acquire. By machine learning standard,
 \begin{subfigure}[b]{.2\linewidth}
 \includegraphics[width=\linewidth]{Figs/dog1178.jpg}
 \end{subfigure}
-\caption{Examples from Cats vs. Dogs Dataset}
+\caption{Examples from the Cats vs. Dogs dataset}
 \label{catdog}
 \end{figure}
 
-Due to the poor performance in experiments with our dataset, to verify the capabilities of these neural network models, they are trained on two other classification datasets, IDC Breast Cancer Dataset \citep{Janowczyk2016} (Fig.\,\ref{IDC}) and Dogs vs. Cats Dataset \citep{catdog}  (Fig.\,\ref{catdog}).
+Due to the poor performance in experiments on our US and PAT datasets, to verify the capabilities of these neural network models, they are trained on two other classification datasets, the IDC Breast Cancer dataset \citep{Janowczyk2016} (Fig.\,\ref{IDC}) and the Dogs vs. Cats dataset \citep{catdog}  (Fig.\,\ref{catdog}).
 
 
 Table \ref{stats} shows the number of images in the datasets. The models are trained for 10 epoch on the IDC Breast Cancer Dataset and 30 epoch on the Dogs vs. Cats Dataset.
@@ -324,11 +324,11 @@ Table \ref{stats} shows the number of images in the datasets. The models are tra
  VGG-IN CatDog  & 0.92 & 0.92 & 0.92 \\
   \hline
 \end{tabular}
-\caption{Model accuracy and $F_1$ score}
+\caption{Model accuracy and $F_1$ score on the IDC Breast Cancer dataset and the Dogs vs. Cats dataset}
 \label{acctable2}
 \end{table}
 
-Validation accuracy and $F_1$ score are reported in Table \ref{acctable2}. Small CNN and ResNet achieved the same accuracy and $F_1$ score on both datasets. VGG is again not able to train. Using pre-trained weights in VGG-IN is effective to improve VGG, but the performance still does not match Small CNN and ResNet. A deep neural network model such as VGG is very difficult to train due to the degradation problem. A deep network not necessarily performs better than a shallower network.
+Validation accuracy and $F_1$ score are reported in Table \ref{acctable2}. The Small CNN model and the ResNet model achieved the same accuracy and $F_1$ score on both datasets. the VGG model is not training well. Using pre-trained weights in the VGG-IN model is effective to improve the VGG model, but the performance still does not match the Small CNN model and the ResNet model. A deep neural network model such as VGG is very difficult to train due to the degradation problem. A deep network not necessarily performs better than a shallower network.
 
 Training loss and accuracy plots are shown in Fig.\,\ref{fig:loss2}. 
 
@@ -370,7 +370,7 @@ Training loss and accuracy plots are shown in Fig.\,\ref{fig:loss2}.
 \caption{VGG-IN CatDog}
 \end{subfigure}
 
-\caption{Model loss}
+\caption{Model loss on the IDC Breast Cancer dataset and the Dogs vs. Cats dataset}
 \label{fig:loss2}
 \end{figure}
 
@@ -412,6 +412,6 @@ Training loss and accuracy plots are shown in Fig.\,\ref{fig:loss2}.
 \caption{VGG-IN CatDog}
 \end{subfigure}
 
-\caption{Model accuracy}
+\caption{Model accuracy on the IDC Breast Cancer dataset and the Dogs vs. Cats dataset}
 \label{fig:acc2}
 \end{figure}
