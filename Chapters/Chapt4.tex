@@ -1,7 +1,7 @@
 % remember to set these at the start of each chapter
 \chapter{Experiments and Discussion} 
 \label{experiments}
-In this section, we show and discuss the performance of each CNN model, including Small CNN, VGG, VGG-IN, and ResNet. Training is performed on PAT and US datasets and two other datasets for verification. Section \ref{result_dataset} and \ref{result_aug} describe the dataset and data pre-processing. Section \ref{result_training} describes the training process, and Section \ref{result_curves} and \ref{result_acc} include the experimental results. We then have a discussion about the results in Section \ref{result_discussion}. Finally, the experimental results on other datasets are shown in Section \ref{result_other}.
+In this section, we show and discuss the performance of each of the CNN models: Small CNN, VGG, VGG-IN, and ResNet. The training is performed on the US and PAT datasets and two other datasets for verification. Section \ref{result_dataset} and \ref{result_aug} describe the US and PAT datasets and data pre-processing. Section \ref{result_training} describes the training process, and Section \ref{result_curves} and \ref{result_acc} include experimental results. We then have a discussion about the results in Section \ref{result_discussion}. Finally, the experimental results on the other two datasets are shown in Section \ref{result_other}.
 %%%%%%%%%%%%%%%%%%
 \section{Dataset}
 \label{result_dataset}
@@ -24,7 +24,7 @@ A specimen of breast cancer tumour is scanned in the $z$ direction (vertical) re
     \label{stack}
 \end{figure}
 
-We can see that the top and bottom scans, for example 1, 2, 3, 39, 40, 41 in Fig.\,\ref{stack}, are very small and lack of detail of the internal texture. This is because the cross-sections close to the top and bottom of a tumour specimen are very small. The cross-sections close to the centre of a specimen, such as 18, 19, 21, 21 are larger in size and have more texture. For each image stack, US and PAT, the centre 6 images are extracted (we could extract more or even use all of the images, but we may not want to use images with poor quality) to use for training and validation. There are in total 389 PAT images and 344 US images extracted from the stacks. Examples of extracted PAT and US images are shown in Fig.\,\ref{pat_us_example}.
+We can see that the top and bottom scans, for example 1, 2, 3, 39, 40, 41 in Fig.\,\ref{stack}, are very small and lack detail for the internal texture. This is because the cross-sections close to the top and bottom of a tumour specimen are very small. The cross-sections close to the centre of a specimen, such as 18, 19, 21, 21 are larger in size and have more texture. For each image stack, US and PAT, the centre 6 images are extracted to use for training and validation (we could extract more or even use all of the images, but we may not want to use images with poor quality). There are in total 389 PAT images and 344 US images extracted from the stacks. Examples of such images are shown in Fig.\,\ref{pat_us_example}.
 
 \begin{figure}
 \centering
@@ -68,15 +68,15 @@ We can see that the top and bottom scans, for example 1, 2, 3, 39, 40, 41 in Fig
 \section{Data Partition and Augmentation}
 \label{result_aug}
 
-The images are divided into a training set and a testing set by an 80/20 ratio. No image from the same stack is separated into the training and the testing set. Because the number of samples in class B and C is not balanced, K-fold data partitioning is done using a Stratified k-fold. Stratified k-fold is where the training set and the testing set contains approximately the same percentage of samples of each target class as the original dataset. Each of the five folds is used as a test set only once. Accuracy and $F_1$ score (defined as (\ref{f1_score})) are averaged across five folds.
+The images are divided into a training set and a testing set by an 80/20 ratio. No image from the same stack is present in both the training and the testing sets. Because the number of samples in class B and C is not balanced, a K-fold data partitioning is done using a stratified k-fold. A stratified K-fold is where the training set and the testing set contain approximately the same percentage of samples of each target class as the original dataset. Each of the five folds is used as a test set only once. Accuracy and $F_1$ score (defined in (\ref{f1_score})) are averaged across the five folds.
 
 Machine learning generally requires large amounts of data. Since our dataset is small, data augmentation is used to artificially expand the number of samples. Augmentation Scaling Factor is set to 5, meaning five images are created from one by rotation, cropping, horizontal and vertical flip. Then, the images are resized to (192, 192).
 
 \section{Training}
 \label{result_training}
 
-The four CNN models, Small CNN, VGG, VGG-IN, and ResNet are implemented and trained using the open-source neural-network library Keras \citep{chollet2015keras} in Python \citep{van1995python}. Adam \citep{adam} optimizer is used in all models to minimize the loss function. Adam can adaptively adjust the learning parameters based on the average first moment, as well as the average of the second moments of the gradients. The parameters of Adam optimizer are set to their default. Number of epoch is 50, as all samples are passed to the network 50 times, with a batch size of 32. Checkpoints are used so that the best set of weights is saved. For a classification problem, the loss function is categorical cross-entropy loss \citep{Goodfellow-et-al-2016}, which is defined as $$-\sum^M_{c=1} y_{o,c}\log(p_{o,c})$$
-$M$ is the number of classes, $y$ is the binary indicator (0 or 1) if class label $c$ is the correct classification for observation $o$, and $p$ is the predicted probability observation $o$ is of class $c$. 
+The four CNN models, Small CNN, VGG, VGG-IN, and ResNet are implemented and trained using the open-source neural-network library Keras \citep{chollet2015keras} in Python \citep{van1995python}. The Adam \citep{adam} optimizer is used in all models to minimize the loss function. Adam can adaptively adjust its parameters based on the average first moment, as well as the average of the second moments of the gradients. Initially, the parameters of Adam are set to their defaults. The number of epoch is 50, as all samples are passed to the network 50 times, with a batch size of 32. Checkpoints are used so that the best set of weights is saved. For a classification problem, the loss function is the categorical cross-entropy loss \citep{Goodfellow-et-al-2016}, which is defined as $$-\sum^M_{c=1} y_{o,c}\log(p_{o,c}),$$
+where $M$ is the number of classes, $y$ is a binary indicator (0 or 1) if class label $c$ is the correct classification for observation $o$, and $p$ is the predicted probability observation $o$ is of class $c$. 
 
 Training a neural network is a ccomputationally intensive task. To speed up the training process, the program is run on a supercomputer system SHARCNET \citep{sharcnet}.
 
@@ -86,10 +86,10 @@ Training a neural network is a ccomputationally intensive task. To speed up the 
 The $F_1$ score (also called F-score) is a measure of a test's accuracy \citep{powers2011evaluation}. It considers both the precision $p$ and the recall $r$ of the test to compute the score. The $F_1$ score is the harmonic average of the precision and recall, where an $F_1$ score reaches its best value at 1 (perfect precision and recall) and worst at 0.
 Formally: 
 \begin{equation}\label{f1_score}
-    F_1 = 2 \cdot \frac{\mathrm{precision} \cdot \mathrm{recall}}{\mathrm{precision} + \mathrm{recall}} = 2 \cdot \frac{p \cdot r}{p+r}
+    F_1 = 2 \cdot \frac{\mathrm{precision} \cdot \mathrm{recall}}{\mathrm{precision} + \mathrm{recall}} = 2 \cdot \frac{p \cdot r}{p+r},
 \end{equation}
-where precition is: $$p = \frac{TP}{TP + FP}$$
-and recall is: $$r = \frac{TP}{TP + FN}$$
+where the precision is $$p = \frac{TP}{TP + FP},$$
+and the recall is $$r = \frac{TP}{TP + FN}.$$
 \noindent Here TP denotes the number of true positives: outcomes where the model correctly predicts the positive class.
 
 \noindent TN denotes the number of true negatives: outcomes where the model correctly predicts the negative class.
@@ -212,11 +212,11 @@ The learning process of a neural network can be investigated through training cu
 \section{Discussion}
 \label{result_discussion}
 
-For the Small CNN model, even though the training loss is decreasing, the validation loss is increasing (Fig.\,\ref{fig:loss} (A) (B)). This model is not generalizing to fit unseen validation data. For ResNet model, the decrease of training and validation loss (Fig.\,\ref{fig:loss} (C) (D)) indicates that ResNet could improve from training (although very noisy). VGG model has almost the same depth as ResNet, 19 layers versus 18 layers. Yet, the convergence of training and validation loss is very poor. We do not see a decrease in training and validation loss (Fig.\,\ref{fig:loss} (E) (F)). VGG-IN model uses a set of pre-trained weights from ImageNet \citep{imagenet_cvpr09} in convolutional layers, only the fully-connected layers and classification layer are trained. VGG-IN model shows decreases in training and validation loss on US dataset (Fig.\,\ref{fig:loss}), but on PAT dataset (Fig.\,\ref{fig:loss} (H)) only training loss decreases.
+For the Small CNN model, even though the training loss is decreasing, the validation loss is increasing (Fig.\,\ref{fig:loss} (A) (B)). This model is not generalizing to fit unseen validation data. For the ResNet model, the decrease of the training and validation loss (Fig.\,\ref{fig:loss} (C) (D)) indicates that ResNet could improve from training (although very noisy). The VGG model has almost the same depth as ResNet, 19 layers versus 18 layers. Yet, the convergence of the training and validation loss is poor. We do not see a decrease in the training and validation loss (Fig.\,\ref{fig:loss} (E) (F)). The VGG-IN model uses a set of pre-trained weights from the ImageNet \citep{imagenet_cvpr09} in the convolutional layers, and only the fully-connected layers and classification layer are trained. The VGG-IN model shows decrease in training and validation loss on the US dataset (Fig.\,\ref{fig:loss}), but on the PAT dataset (Fig.\,\ref{fig:loss} (H)) only the training loss decreases.
 
-All models perform poorly in terms of accuracy on the US and PAT datasets. The validation accuracy of all models do not show a consistent improvement over epoch (Fig.\,\ref{fig:acc}). Note the large gap between training and validation curves. This indicates that the training dataset is unrepresentative, which means the training dataset does not provide sufficient information to learn the problem. We may have too few examples in the training dataset, or the training dataset may not be a good representation. From the noisy validation curves, we can conclude that the validation dataset is also unrepresentative. A unrepresentative validation set means that it does not provide sufficient information to evaluate the ability of the model to generalize. This could occur when the validation dataset has too few examples.
+All models perform poorly in terms of accuracy on the US and PAT datasets. The validation accuracy of all models do not show a consistent improvement over the epochs (Fig.\,\ref{fig:acc}). Note the large gap between the training and validation curves. This indicates that the training dataset is unrepresentative, which means that the training dataset does not provide sufficient information to learn. We may have too few examples in the training dataset, or the training dataset may not be a good representation. From the noisy validation curves, we can conclude that the validation dataset is also unrepresentative. A unrepresentative validation set means that it does not provide sufficient information to evaluate the ability of the model to generalize. This could occur when the validation dataset has too few examples.
 
-Medical images are naturally difficult to acquire. By machine learning standard, which often requires thousands or even millions of samples, our datasets is considered extremely small. In addition, the US and PAT scans are very noisy and have lots of artifacts. The low quality of images makes it more challenging for neural networks to pick up important features. With additional data come to hand, we hope to see an improvement on the models' performance.
+Medical images are naturally difficult to acquire. By machine learning standards, which often requires thousands or even millions of samples, our datasets is considered extremely small. In addition, the US and and in particular the PAT scans are very noisy and have many artifacts. The low quality of images makes it more challenging for the neural networks to pick up important features. If more data is available, we hope to see an improvement on the models' performance.
 
 \section{Experiments with other datasets}
 \label{result_other}
@@ -283,7 +283,7 @@ Medical images are naturally difficult to acquire. By machine learning standard,
 \label{catdog}
 \end{figure}
 
-Due to the poor performance in experiments on our US and PAT datasets, to verify the capabilities of these neural network models, they are trained on two other classification datasets, the IDC Breast Cancer dataset \citep{Janowczyk2016} (Fig.\,\ref{IDC}) and the Dogs vs. Cats dataset \citep{catdog}  (Fig.\,\ref{catdog}).
+Due to the poor performance on our US and PAT datasets, to verify the capabilities of these neural network models, we trained them on two other classification datasets, the IDC Breast Cancer dataset \citep{Janowczyk2016} (Fig.\,\ref{IDC}) and the Dogs vs. Cats dataset \citep{catdog}  (Fig.\,\ref{catdog}).
 
 
 Table \ref{stats} shows the number of images in the datasets. The models are trained for 10 epoch on the IDC Breast Cancer Dataset and 30 epoch on the Dogs vs. Cats Dataset.
@@ -313,10 +313,10 @@ Table \ref{stats} shows the number of images in the datasets. The models are tra
  Model       & Accuracy & Class 0 $F_1$ score & Class 1 $F_1$ score\\
  \hline
  \hline
- Small Breast   & \textbf{0.89}  & \textbf{0.92} &  \textbf{0.80}\\
- ResNet Breast  & 0.88  & \textbf{0.92} &  \textbf{0.80}\\
- VGG Breast      & 0.71  & 0.83 &  0\\
- VGG-IN breast & 0.85 & 0.90 & 0.73 \\
+ Small IDC Breast   & \textbf{0.89}  & \textbf{0.92} &  \textbf{0.80}\\
+ ResNet IDC Breast  & 0.88  & \textbf{0.92} &  \textbf{0.80}\\
+ VGG IDC Breast      & 0.71  & 0.83 &  0\\
+ VGG-IN IDC Breast & 0.85 & 0.90 & 0.73 \\
  \hline
  Small CatDog   & \textbf{0.93}  & \textbf{0.93} &  \textbf{0.93}\\
  ResNet CatDog  & \textbf{0.93}  & \textbf{0.93} &  \textbf{0.93}\\
@@ -328,7 +328,7 @@ Table \ref{stats} shows the number of images in the datasets. The models are tra
 \label{acctable2}
 \end{table}
 
-Validation accuracy and $F_1$ score are reported in Table \ref{acctable2}. The Small CNN model and the ResNet model achieved the same accuracy and $F_1$ score on both datasets. the VGG model is not training well. Using pre-trained weights in the VGG-IN model is effective to improve the VGG model, but the performance still does not match the Small CNN model and the ResNet model. A deep neural network model such as VGG is very difficult to train due to the degradation problem. A deep network not necessarily performs better than a shallower network.
+Validation accuracy and $F_1$ score are reported in Table \ref{acctable2}. The Small CNN model and the ResNet model achieved about the same accuracy and $F_1$ score on both datasets. The VGG model did not training well. Using pre-trained weights in the VGG-IN model is effective to improve the VGG model, but the performance still does not match the Small CNN and the ResNet models. A deep neural network model such as VGG is very difficult to train due to the degradation problem. A deep network not necessarily performs better than a shallower network.
 
 Training loss and accuracy plots are shown in Fig.\,\ref{fig:loss2}. 
 
@@ -336,7 +336,7 @@ Training loss and accuracy plots are shown in Fig.\,\ref{fig:loss2}.
 \centering
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/small_breast_loss.jpg}
-\caption{Small Breast}
+\caption{Small IDC Breast}
 \end{subfigure}
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/small_catdog_loss.jpg}
@@ -345,7 +345,7 @@ Training loss and accuracy plots are shown in Fig.\,\ref{fig:loss2}.
 
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/resnet_breast_loss.jpg}
-\caption{ResNet Breast}
+\caption{ResNet IDC Breast}
 \end{subfigure}
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/resnet_catdog_loss.jpg}
@@ -354,7 +354,7 @@ Training loss and accuracy plots are shown in Fig.\,\ref{fig:loss2}.
 
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/vgg_breast_loss.jpg}
-\caption{VGG Breast}
+\caption{VGG IDC Breast}
 \end{subfigure}
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/vgg_catdog_loss.jpg}
@@ -363,7 +363,7 @@ Training loss and accuracy plots are shown in Fig.\,\ref{fig:loss2}.
 
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/vgg_in_breast_loss.jpg}
-\caption{VGG-IN Breast}
+\caption{VGG-IN IDC Breast}
 \end{subfigure}
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/vgg_in_catdog_loss.jpg}
@@ -378,7 +378,7 @@ Training loss and accuracy plots are shown in Fig.\,\ref{fig:loss2}.
 \centering
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/small_breast_acc.jpg}
-\caption{Small Breast}
+\caption{Small IDC Breast}
 \end{subfigure}
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/small_catdog_acc.jpg}
@@ -387,7 +387,7 @@ Training loss and accuracy plots are shown in Fig.\,\ref{fig:loss2}.
 
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/resnet_breast_acc.jpg}
-\caption{ResNet Breast}
+\caption{ResNet IDC Breast}
 \end{subfigure}
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/resnet_catdog_acc.jpg}
@@ -396,7 +396,7 @@ Training loss and accuracy plots are shown in Fig.\,\ref{fig:loss2}.
 
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/vgg_breast_acc.jpg}
-\caption{VGG Breast}
+\caption{VGG IDC Breast}
 \end{subfigure}
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/vgg_catdog_acc.jpg}
@@ -405,7 +405,7 @@ Training loss and accuracy plots are shown in Fig.\,\ref{fig:loss2}.
 
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/vgg_in_breast_acc.jpg}
-\caption{VGG-IN Breast}
+\caption{VGG-IN IDC Breast}
 \end{subfigure}
 \begin{subfigure}[b]{.45\linewidth}
 \includegraphics[width=\linewidth]{Figs/vgg_in_catdog_acc.jpg}
